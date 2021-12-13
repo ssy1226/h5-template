@@ -1,7 +1,4 @@
-import { lazy } from 'react'
-const Qcc = lazy(() => import(/* webpackChunkName: "Index" */ '@/pages/qcc'))
-const RelatedParty = lazy(() => import(/* webpackChunkName: "About" */ '@/pages/relatedParty'))
-const Detail = lazy(() => import(/* webpackChunkName: "Detail" */ '@/pages/detail'))
+import loadable from '@loadable/component';
 
 export interface RouteConfig {
   path: string
@@ -11,18 +8,23 @@ export interface RouteConfig {
 
 export const routes: RouteConfig[] = [
   {
+    path: '/cockpit',
+    component:loadable(() => import('@/pages/cockpit/index.jsx')),
+    exact: true
+  },
+  {
     path: '/qcc',
-    component: Qcc,
+    component:loadable(() => import('@/pages/qcc')),
     exact: true
   },
   {
     path: '/relatedParty',
-    component: RelatedParty,
+    component: loadable(() => import('@/pages/relatedParty')),
     exact: true
   },
   {
     path: '/detail',
-    component: Detail,
+    component: loadable(() => import('@/pages/detail')),
     exact: true
   }
 ]

@@ -13,7 +13,7 @@ const RouterView = () => (
         {routes.map(route => (
           <Route key={route.path} path={route.path} component={route.component} exact={route.exact}/>
         ))}
-        <Redirect to='/qcc'/>
+        <Redirect to='/cockpit'/>
       </Switch>
     </Suspense>
   </BrowserRouter>
