@@ -1,4 +1,54 @@
 .index-page{
   background: #fafafa;
-  padding: 0 10px;
+  height: 100vh;
+  padding: 10px 10px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+.section-tilte{
+  font-size: 20px;
+  font-weight: bolder;
+  line-height: 2;
+}
+.section-content{
+  background: #ffffff;
+  border-radius: 10px;
+}
+.sum-content{
+  display: flex;
+  justify-content: space-around;
+  font-size: 18px;
+  padding: 20px 0;
+  font-weight: bold;
+  align-items: flex-end;
+  .num-item{
+    .num{
+      font-size: 20px;
+      font-weight: bolder;
+      color: #525c80;
+    }
+    .unit{
+      font-size: 16px;
+      color: #525c80;
+      font-weight: normal;
+      margin-left: 4px;
+    }
+  }
+  .num-normal{
+    font-size: 14px;
+    font-weight: normal;
+    .num{
+      font-size: 16px;
+      color: red;
+    }
+  }
+}
+.has-margin{
+  margin-top: 10px; 
+}
+.button{
+  padding: 10px;
+  border: #525c80 solid 1px;
+  border-radius: 2px;
+  text-align: center;
 }

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components';
-const dpr = window.devicePixelRatio;
 
 const Chart = ({ renderType = 'canvas', options, style, components = [] }) => {
   const chartRef = useRef();
@@ -22,7 +21,6 @@ const Chart = ({ renderType = 'canvas', options, style, components = [] }) => {
   }, [chartRef, options, renderType]);
 
   useEffect(() => {
-    console.log('dpr', dpr);
     // 注册必须的组件
     echarts&&echarts.use([CanvasRenderer, TitleComponent, TooltipComponent, LegendComponent, ...components]);
   }, []);
