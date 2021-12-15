@@ -1,7 +1,7 @@
 //浅色主题
 $light-theme: (
-  base-color: #000,
-  background-color: #ccc
+  base-color: #2f3338,
+  background-color: #fff
 );
 
 //深色主题
@@ -37,4 +37,11 @@ $themes: (
 }
 
 $font-size: 14px;
+#root{
+  background: #f6f7fb;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: scroll;
+}
 

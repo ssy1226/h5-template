@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 // 引入柱状图图表，图表后缀都为 Chart
 import { PieChart, BarChart  } from 'echarts/charts';
-import { GridComponent } from 'echarts/components';
 // 引入封装好的组件
 import Chart from '../../components/charts';
 import './index.scss';
@@ -9,32 +8,23 @@ import './index.scss';
 const getOption = () => {
   return {
     color: [
-      '#fda280', '#c1dbfe', '#d1a9fe', '#6c9de2', '#8796cb','#25d4db'
+      '#C4DDFD', '#9CBCFF', '#7FA7FA', '#6695F9', '#4E85F4','#366BD8'
     ],
-    title: {
-      text: '部门分布',
-      left: '0',
-      textStyle:{
-        color:'#525c80', //颜色
-        fontStyle:'normal', //风格
-        fontWeight:'normal', //粗细
-        fontFamily:'Microsoft yahei', //字体
-        fontSize:16, //大小
-        align:'center' //水平对齐
-      },
-    },
     tooltip: {
       trigger: 'item',
       formatter: '{b} : {c}, ({d}%)',
     },
     legend: {
-      orient: 'vertical',
+      orient: 'horizontal',
       icon: 'roundRect',
-      itemHeight: 7,
-      right: 0,
-    },
-    grid: {
-      // right: '20%',containLabel: true,
+      itemHeight: 16,
+      itemWidth: 16,
+      bottom: '15%',
+      textStyle:{
+        color: 'rgba(44,53,66,0.65)',
+        fontSize:12,
+        lineHeight: 16
+      }
     },
     series: [
       {
@@ -42,13 +32,13 @@ const getOption = () => {
         type: 'pie',
         radius: '50%',
         left: 0,
-        center: ['40%', '50%'],
+        center: ['50%', '40%'],
         avoidLabelOverlap: false,
         label: {
+          align: 'left',
           position: 'outer',
           alignTo: 'labelLine',
-          bleedMargin: 5,
-          formatter: '{department|{b}}\n{percent|{d}%}',
+          formatter: '{department|{b}}\n{percent|{d}%}\n\n',
           minMargin: 20,
           lineHeight: 15,
           rich: {
@@ -89,18 +79,9 @@ const getOption = () => {
   }
 };
 const barCharts = {
-  title: {
-    text: '历史趋势',
-    left: '0',
-    textStyle:{
-      color:'#525c80', //颜色
-      fontStyle:'normal', //风格
-      fontWeight:'normal', //粗细
-      fontFamily:'Microsoft yahei', //字体
-      fontSize:16, //大小
-      align:'center' //水平对齐
-    },
-  },
+  color: [
+    '#5B8FF9',
+  ],
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -110,7 +91,7 @@ const barCharts = {
   xAxis: [
     {
       type: 'category',
-      data: ['21-06', '21-07', '21-08', '21-09', '21-10', '21-11', '21-12'],
+      data: ['21-01','21-02','21-03','21-04','21-05','21-06', '21-07', '21-08', '21-09', '21-10', '21-11', '21-12'],
       axisTick: {
         alignWithLabel: true
       },
@@ -131,10 +112,10 @@ const barCharts = {
       label: {
         show: true,
         position: 'top',
-    },
+      },
       type: 'bar',
-      barWidth: '16px',
-      data: [10, 52, 40, 69, 20, 50, 45]
+      barWidth: '50%',
+      data: [10, 52, 40, 69, 20, 50, 52, 40, 69, 20, 50, 45]
     }
   ]
 };
@@ -142,62 +123,86 @@ const barCharts = {
 export default () => {
   const [showDetail, setShowDetail] = useState(false);
   return (
-    <div className='index-page'>
+    <div className='index-page' data-theme="light-theme">
       <section>
-        <div className='section-tilte'>
-          营业收入情况
+        <div className='section-content'>
+          <div className='display-flex page-top'>
+            <div className='section-tilte'>营业收入情况</div>
+            <div className='section-time'>*数据更新时间：2021-11-30</div>
+          </div>
         </div>
+      </section>
+      <div className='split'></div>
+      <section>
         <div className='section-content'>
           <div className='sum-content'>
             <div className='num-item'>
-              <div>营业收入</div>
-              <div><span className='num'>500.00</span><span className='unit'>亿元</span></div>
+              <div className='sub-title'>营业收入</div>
+              <div className='num'><span className='data'>500.00</span><span className='unit'>亿元</span></div>
             </div>
             <div className='num-item num-normal'>
-              <div>同比</div>
+              <div className='sub-title'>同比</div>
               <div className='num'>50.00%</div>
             </div>
             <div className='num-item'>
-              <div>预算完成率</div>
+              <div className='sub-title'>预算完成率</div>
               <div className='num'>50.00%</div>
+              <div className='progress-bar'>
+                <div className='real-bar' style={{width: '50%'}}></div>
+              </div>
             </div>
           </div>
-          <Chart
-            style={{ height: '240px',width: '100%', }}
-            options={getOption()}
-            components={[PieChart]}
-          />
         </div>
+      </section>
+      <div className='split'></div>
+      <section className='chart'>
+        <div className='chart-title'>营业收入</div>
+        <Chart
+          style={{ height: '100%', width: '100%'}}
+          options={getOption()}
+          components={[PieChart]}
+        />
+      </section>
+      <section>
+         <div className='button' onClick={()=>{setShowDetail(!showDetail)}}>
+           {showDetail?<span className='open arrow'>收起当月情况</span>:
+           <span className='close arrow'>当月情况</span>}
+          </div>
       </section>
       {showDetail&&
-      <section className='has-margin has-animation'>
-        <div className='section-content'>
-          <div className='sum-content'>
-            <div className='num-item'>
-              <div>营业收入</div>
-              <div><span className='num'>500.00</span><span className='unit'>亿元</span></div>
-            </div>
-            <div className='num-item num-normal'>
-              <div>环比</div>
-              <div className='num'>50.00%</div>
+      <>
+        <section>
+          <div className='section-content'>
+            <div className='sum-content sum-month'>
+              <div className='num-item'>
+                <div className='sub-title'>营业收入</div>
+                <div className='num'><span className='data'>500.00</span><span className='unit'>亿元</span></div>
+              </div>
+              <div className='num-item num-normal'>
+                <div className='sub-title'>环比</div>
+                <div className='num'>50.00%</div>
+              </div>
             </div>
           </div>
+        </section>
+        <section className='month-pie-chart chart'>
+          <div className='chart-title'>营业收入</div>
           <Chart
-            style={{ height: '240px',width: '100%', }}
+            style={{ height: '100%', width: '100%'}}
             options={getOption()}
             components={[PieChart]}
           />
+        </section>
+        <div className='split'></div>
+        <section className='month-bar-chart'>
+          <div className='chart-title'>历史趋势</div>
           <Chart
-            style={{ height: '260px',width: '100%', }}
-            options={barCharts}
-            components={[BarChart, GridComponent ]}
-          />
-        </div>
-      </section>}
-      <section className='has-margin'>
-         <div className='button section-content' onClick={()=>{setShowDetail(!showDetail)}}>{showDetail?'收起当月情况':'当月情况'}</div>
-      </section>
-      
+              style={{ height: '100%',width: '100%', }}
+              options={barCharts}
+              components={[BarChart]}
+            />
+        </section>
+      </>}
     </div>
     
   );
