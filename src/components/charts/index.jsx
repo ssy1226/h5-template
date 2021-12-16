@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { TitleComponent, TooltipComponent, LegendComponent,GridComponent  } from 'echarts/components';
+import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components';
 
 const Chart = ({ renderType = 'canvas', options, style, components = [] }) => {
   const chartRef = useRef();
@@ -22,7 +22,7 @@ const Chart = ({ renderType = 'canvas', options, style, components = [] }) => {
 
   useEffect(() => {
     // 注册必须的组件
-    echarts&&echarts.use([CanvasRenderer, TitleComponent, TooltipComponent, LegendComponent,GridComponent, ...components]);
+    echarts&&echarts.use([CanvasRenderer, TitleComponent, TooltipComponent, LegendComponent, ...components]);
   }, []);
 
   //监听屏幕变化，重绘图表
