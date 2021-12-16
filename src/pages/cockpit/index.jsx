@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-// 引入柱状图图表，图表后缀都为 Chart
 import { PieChart, BarChart  } from 'echarts/charts';
-// 引入封装好的组件
+import Store from "./strore";
 import Chart from '../../components/charts';
 import './index.scss';
 
-const getOption = () => {
+const getPieOption = (data) => {
   return {
     color: [
       '#C4DDFD', '#9CBCFF', '#7FA7FA', '#6695F9', '#4E85F4','#366BD8'
@@ -59,14 +58,7 @@ const getOption = () => {
             labelLinePoints: points
           };
         },
-        data: [
-          { value: 848, name: 'IB'},
-          { value: 735, name: 'CCM' },
-          { value: 580, name: 'AM' },
-          { value: 484, name: 'EQ' },
-          { value: 400, name: 'WM' },
-          { value: 300, name: 'FI' }
-        ],
+        data,
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
@@ -78,50 +70,123 @@ const getOption = () => {
     ]
   }
 };
-const barCharts = {
-  color: [
-    '#5B8FF9',
-  ],
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'shadow'
-    }
-  },
-  xAxis: [
-    {
-      type: 'category',
-      data: ['21-01','21-02','21-03','21-04','21-05','21-06', '21-07', '21-08', '21-09', '21-10', '21-11', '21-12'],
-      axisTick: {
-        alignWithLabel: true
-      },
-      axisLabel: {
-        interval:0,
-        rotate:40
-     }
-    }
-  ],
-  yAxis: [
-    {
-      type: 'value'
-    }
-  ],
-  series: [
-    {
-      name: '收入',
-      label: {
-        show: true,
-        position: 'top',
-      },
-      type: 'bar',
-      barWidth: '50%',
-      data: [10, 52, 40, 69, 20, 50, 52, 40, 69, 20, 50, 45]
-    }
-  ]
-};
+const getLineOption = ({x,y})=>{
+  return {
+    color: [
+      '#5B8FF9',
+    ],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    xAxis: [
+      {
+        type: 'category',
+        data: x,
+        axisTick: {
+          alignWithLabel: true
+        },
+        axisLabel: {
+          interval:0,
+          rotate:40
+       }
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
+    series: [
+      {
+        name: '收入',
+        label: {
+          show: true,
+          position: 'top',
+        },
+        type: 'bar',
+        barWidth: '50%',
+        data: y
+      }
+    ]
+  };
+}
 
+let firstGetMonthData = false;
 export default () => {
   const [showDetail, setShowDetail] = useState(false);
+  const [yearLineData, setYearLineData] = useState({x:[],y:[]});
+  const [yearPieData, setYearPieData] = useState([]);
+  const [monthPieData, setMonthPieData] = useState([]);
+  const [yearPointer, setYearPointer] = useState('--');
+  const [monthPointer, setMonthPointer] = useState('--');
+  const [yearVsSply, setYearVsSply] = useState('--');
+  const [monthVsSply, setMonthVsSply] = useState('--');
+  const [yearFinishRate, setYearFinishRate] = useState('--');
+  const formatePieData = (data)=>{
+    let res = [];
+    for(let key in data){
+      res.push({
+        value: data[key],
+        name: key
+      })
+    }
+    return res;
+  }
+  const formateLineData = (data)=>{
+    let x = [];
+    let y = []
+    for(let key in data){
+      x.push(key);
+      y.push(data[key])
+    }
+    return {x,y};
+  }
+  const getYearData = ()=>{
+    Store.getYDepartment().then((res)=>{
+      setYearPieData(formatePieData(res.data))
+    })
+    Store.getYPointerValues().then((res)=>{
+      setYearPointer(res.data);
+    })
+    Store.getYVSSply().then((res)=>{
+      setYearVsSply(res.data);
+    })
+    Store.getYFinishRate().then((res)=>{
+      setYearFinishRate(res.data);
+    })
+  }
+  const getMonthData = ()=>{
+    Store.getMDepartment().then((res)=>{
+      setMonthPieData(formatePieData(res.data))
+    })
+    Store.getMPointerValue().then((res)=>{
+      setMonthPointer(res.data);
+    })
+    Store.getMPointerValues({months: 12}).then((res)=>{
+      setYearLineData(formateLineData(res.data))
+    })
+    Store.getMVSLp().then((res)=>{
+      setMonthVsSply(res.data);
+    })
+  }
+  const showMonthData = ()=>{
+    if(showDetail){
+      setShowDetail(false)
+    } else {
+      if(!firstGetMonthData){
+        getMonthData()
+        firstGetMonthData = true;
+      }
+      setShowDetail(true);
+    }
+  }
+  useEffect(() => {
+    console.log('useEffect');
+    getYearData();
+  }, []);
   return (
     <div className='index-page' data-theme="light-theme">
       <section>
@@ -138,17 +203,17 @@ export default () => {
           <div className='sum-content'>
             <div className='num-item'>
               <div className='sub-title'>营业收入</div>
-              <div className='num'><span className='data'>500.00</span><span className='unit'>亿元</span></div>
+              <div className='num'><span className='data'>{yearPointer}</span><span className='unit'>亿元</span></div>
             </div>
             <div className='num-item num-normal'>
               <div className='sub-title'>同比</div>
-              <div className='num'>50.00%</div>
+              <div className='num'>{yearVsSply}</div>
             </div>
             <div className='num-item'>
               <div className='sub-title'>预算完成率</div>
-              <div className='num'>50.00%</div>
+              <div className='num'>{yearFinishRate}</div>
               <div className='progress-bar'>
-                <div className='real-bar' style={{width: '50%'}}></div>
+                <div className='real-bar' style={{width: yearFinishRate}}></div>
               </div>
             </div>
           </div>
@@ -156,15 +221,15 @@ export default () => {
       </section>
       <div className='split'></div>
       <section className='chart'>
-        <div className='chart-title'>营业收入</div>
+        <div className='chart-title'>部门分布</div>
         <Chart
           style={{ height: '100%', width: '100%'}}
-          options={getOption()}
+          options={getPieOption(yearPieData)}
           components={[PieChart]}
         />
       </section>
       <section>
-         <div className='button' onClick={()=>{setShowDetail(!showDetail)}}>
+         <div className='button' onClick={showMonthData}>
            {showDetail?<span className='open arrow'>收起当月情况</span>:
            <span className='close arrow'>当月情况</span>}
           </div>
@@ -176,20 +241,20 @@ export default () => {
             <div className='sum-content sum-month'>
               <div className='num-item'>
                 <div className='sub-title'>营业收入</div>
-                <div className='num'><span className='data'>500.00</span><span className='unit'>亿元</span></div>
+                <div className='num'><span className='data'>{monthPointer}</span><span className='unit'>亿元</span></div>
               </div>
               <div className='num-item num-normal'>
                 <div className='sub-title'>环比</div>
-                <div className='num'>50.00%</div>
+                <div className='num'>{monthVsSply}</div>
               </div>
             </div>
           </div>
         </section>
         <section className='month-pie-chart chart'>
-          <div className='chart-title'>营业收入</div>
+          <div className='chart-title'>部门分布</div>
           <Chart
             style={{ height: '100%', width: '100%'}}
-            options={getOption()}
+            options={getPieOption(monthPieData)}
             components={[PieChart]}
           />
         </section>
@@ -198,7 +263,7 @@ export default () => {
           <div className='chart-title'>历史趋势</div>
           <Chart
               style={{ height: '100%',width: '100%', }}
-              options={barCharts}
+              options={getLineOption(yearLineData)}
               components={[BarChart]}
             />
         </section>
