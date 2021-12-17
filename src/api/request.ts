@@ -96,7 +96,7 @@ export default function request(
         // if (data.code !== 200) {
         //   Toast.info(data.msg)
         // }
-        resolve(data.data)
+        resolve(data)
       })
       .catch(err => {
         reject(err)

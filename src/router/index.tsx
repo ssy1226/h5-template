@@ -1,13 +1,13 @@
 import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { routes } from './routes'
-import AppTabBar from '@/components/tabbar'
+import TopBar from '@/components/topbar'
 import { LoadingElement } from '@/components/loading'
 
 /* Use components to define routes */
 const RouterView = () => (
   <BrowserRouter basename="">
-    <AppTabBar/>
+    <TopBar />
     <Suspense fallback={LoadingElement}>
       <Switch>
         {routes.map(route => (
