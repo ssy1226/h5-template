@@ -4,6 +4,7 @@
 }
 .index-page{
   @include base-color();
+  margin-top: .25rem;
   background: #ffffff;
   padding: 0 16px 16px;
   padding-bottom: calc(12px+ constant(safe-area-inset-bottom));//兼容 IOS<11.2
@@ -16,7 +17,45 @@
   background: #d8d8d8;
 }
 .page-top{
-  padding: .3rem 0;
+  height: .98rem;
+  line-height: .98rem;
+}
+.type-slect{
+  margin-top: .5rem;
+  display: flex;
+  height: .34rem;
+  font-size: .24rem;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(47,51,56,0.60);
+  line-height: .34rem;
+  .type-item{
+    width: 1.22rem;
+  }
+  .type-slected{
+    color: #ffffff;
+    background: #b34f4f;
+    border-radius: 4px;
+  }
+}
+.rate-bar{
+  display: flex;
+  margin-bottom: .32rem;
+  font-size: .24rem;
+  color: #8f8f91;
+  line-height: .40rem;
+  padding-left: .28rem;
+  align-items: center;
+  .rate-chart{
+    width: 3.13rem;
+    height: 4px;
+    opacity: 0.62;
+    background: #d8d8d8;
+    border-radius: 2px;
+  }
+  .rate-desc,.rate-data{
+    flex: 1;
+  }
 }
 .section-tilte{
   font-size: 17px;
@@ -37,10 +76,10 @@
 }
 .sum-content{
   display: flex;
-  justify-content: space-between;
   font-size: 20px;
-  padding: 26px 0;
+  padding: .5rem 0;
   color: #2F3338;
+  padding-left: .28rem;
   .num-item{
     .sub-title{
       color: #8f8f91;
@@ -69,6 +108,7 @@
     }
   }
   .num-normal{
+    margin-left: .42rem;
     .num{
       font-size: .24rem;
       color: #DF3031;
@@ -80,7 +120,7 @@
         width: .28rem;
         height: .28rem;
         position: absolute;
-        left: 0;
+        right: -9px;
         top: .28rem;
         background-image: url('../../assets/up.png');
         background-size: 100%;
@@ -119,12 +159,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.sum-month{
-  justify-content:flex-start;
-  .num-normal{
-    margin-left: 40px;
-  }
 }
 .arrow{
   position: relative;

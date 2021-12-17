@@ -112,7 +112,6 @@ const getLineOption = ({x,y})=>{
     ]
   };
 }
-
 let firstGetMonthData = false;
 export default () => {
   const [showDetail, setShowDetail] = useState(false);

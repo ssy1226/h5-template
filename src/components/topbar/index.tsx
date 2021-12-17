@@ -47,7 +47,7 @@ function TopBar() {
       {tabBar.map((item, index)=>
         <div key={item.path} className={`tab-item ${item.selected?'selected':''}`} onClick={()=>{changeTab(index, item.path)}}>{item.title}</div>
       )}
-    </div>
+    </div> 
   )
 }
 

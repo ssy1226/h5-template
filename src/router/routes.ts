@@ -9,7 +9,7 @@ export interface RouteConfig {
 export const routes: RouteConfig[] = [
   {
     path: '/cockpit',
-    component:loadable(() => import('@/pages/cockpit/index.jsx')),
+    component:loadable(() => import('@/pages/cockpit/index')),
     exact: true
   },
   {
