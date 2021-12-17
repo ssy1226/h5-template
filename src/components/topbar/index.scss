@@ -1,0 +1,16 @@
+.top-bar{
+  display: flex;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1rem;
+  background: #fff;
+  align-items: center;
+  padding-left: .2rem;
+  .tab-item{
+    margin-right: 10px;
+    position: relative;
+  }
+}

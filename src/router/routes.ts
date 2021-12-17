@@ -13,13 +13,18 @@ export const routes: RouteConfig[] = [
     exact: true
   },
   {
-    path: '/qcc',
-    component:loadable(() => import('@/pages/qcc')),
+    path: '/cockpit/FI',
+    component:loadable(() => import('@/pages/cockpit/FI')),
     exact: true
   },
   {
-    path: '/relatedParty',
-    component: loadable(() => import('@/pages/relatedParty')),
+    path: '/cockpit/BI',
+    component:loadable(() => import('@/pages/cockpit/BI')),
+    exact: true
+  },
+  {
+    path: '/cockpit/RM',
+    component: loadable(() => import('@/pages/cockpit/RM')),
     exact: true
   },
   {
