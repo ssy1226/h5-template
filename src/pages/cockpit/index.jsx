@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { PieChart, BarChart  } from 'echarts/charts';
 import Store from "./strore";
 import Chart from '../../components/charts';
+import TopBar from '../../components/topbar';
 import './index.scss';
-
 const getPieOption = (data) => {
   return {
     color: [
@@ -189,6 +189,7 @@ export default () => {
   }, []);
   return (
     <div className='index-page' data-theme="light-theme">
+      <TopBar />
       <section>
         <div className='section-content'>
           <div className='display-flex page-top'>
