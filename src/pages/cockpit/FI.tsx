@@ -147,36 +147,36 @@ export default () => {
   }
   const getYearData = ()=>{
     Store.getYDepartment().then((res)=>{
-      setPieData(formatePieData(res.data))
+      res.code===200 && setPieData(formatePieData(res.data))
     })
     Store.getYPointerValues().then((res)=>{
-      setYearPointer(res.data);
+      res.code===200 && setYearPointer(res.data);
     })
     Store.getYVSSply().then((res)=>{
-      setYearVsSply(res.data);
+      res.code===200 && setYearVsSply(res.data);
     })
     Store.getYFinishRate().then((res)=>{
-      setYearFinishRate(res.data);
+      res.code===200 && setYearFinishRate(res.data);
     })
     Store.getMPointerValues({months: 12}).then((res)=>{
-      setYearLineData(formateLineData(res.data));
+      res.code===200 && setYearLineData(formateLineData(res.data));
     })
     Store.getProgress().then((res)=>{
-      setProgress(res.data);
+      res.code===200 && setProgress(res.data);
     })
   }
   const getMonthData = ()=>{
     Store.getMDepartment().then((res)=>{
-      setPieData(formatePieData(res.data))
+      res.code===200 && setPieData(formatePieData(res.data))
     })
     Store.getMPointerValue().then((res)=>{
-      setMonthPointer(res.data);
+      res.code===200 && setMonthPointer(res.data);
     })
     Store.getMPointerValues({months: 12}).then((res)=>{
-      setYearLineData(formateLineData(res.data))
+      res.code===200 && setYearLineData(formateLineData(res.data))
     })
     Store.getMVSLp().then((res)=>{
-      setMonthVsSply(res.data);
+      res.code===200 && setMonthVsSply(res.data);
     })
   }
   const showMonthData = (YTD)=>{

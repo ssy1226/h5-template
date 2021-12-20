@@ -1,14 +1,7 @@
 const setTitle = title => {
   document.title = title || '';
 };
-const getQueryString = name => {
-  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) {
-    return decodeURIComponent(r[2]);
-  }
-  return null;
-}
+
 const isQX =()=>{
   let ua = window.navigator.userAgent.toLowerCase() || '';
   if(ua.match(/MicroMessenger/i) && ua.match(/wxwork/i)){
@@ -63,5 +56,19 @@ const cookie = () => {
     },
   };
 };
+const getQuery=(variable?:string)=> {
+  const query = window.location.search.substring(1);
+  const vars = query.split('&');
+  const queryObj = {};
+  for (let i = 0; i < vars.length; i += 1) {
+    const pair = vars[i].split('=');
+    const [key, value] = pair;
+    queryObj[key] = value;
+  }
+  if (variable) {
+    return queryObj[variable];
+  }
+  return queryObj;
+}
 
-export {setTitle, getQueryString, isQX, cookie};
+export {setTitle, getQuery, isQX, cookie};

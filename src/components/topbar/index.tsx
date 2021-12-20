@@ -47,7 +47,7 @@ function TopBar() {
       })
     )
     sethideTab(!tabs.map(item => item.path).includes(pathname))
-  }, []);
+  }, [pathname]);
   return (
     <div className='top-bar' style={{
       display: hideTab ? 'none' : 'flex'
