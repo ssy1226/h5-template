@@ -1,29 +1,28 @@
-import React, { Suspense, useEffect, useState } from 'react'
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
+import React, { Suspense, useEffect } from 'react'
+import { Redirect, BrowserRouter, Route, Switch } from 'react-router-dom'
 import { routes } from './routes'
 import noAuth from '@/pages/no-auth';
 import TopBar from '@/components/topbar'
 import { cookie } from "@/utils/tools";
 import { LoadingElement } from '@/components/loading'
-import Layout from "./layout";
 import Api from "@/api/index";
 
 const RouterView = () => {
-  // const [hasAuth, setAuth] = useState(false);
-  // useEffect(() => {
-  //   const token = cookie().get('token');
-  //   if(!token){
-  //     let code = '张乐乐'
-  //     Api.getUserInfo(code).then((res)=>{
-  //       if(res.code===200){
-  //         const cookieSet = cookie().set;
-  //         cookieSet('token', res.data, 10);
-  //       }  
-  //     })
-  //   }else {
-  //     setAuth(true)
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = cookie().get('token');
+    if(!token){
+      window.location.href = '/noAuth'
+      let code = '张乐乐'
+      Api.getUserInfo(code).then((res)=>{
+        if(res.code===200){
+          const cookieSet = cookie().set;
+          cookieSet('token', res.data, 10);
+        } else {
+          window.location.href = '/noAuth'
+        }
+      })
+    }
+  }, []);
   return (<BrowserRouter basename="">
     <TopBar />
     <Suspense fallback={LoadingElement}>
@@ -36,6 +35,7 @@ const RouterView = () => {
           exact
           path="/noAuth"
         />
+        <Redirect to="/noAuth" />
       </Switch>
     </Suspense>
   </BrowserRouter>)

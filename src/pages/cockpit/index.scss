@@ -5,10 +5,12 @@
 .index-page{
   @include base-color();
   margin-top: .25rem;
-  background: #ffffff;
-  padding: 0 16px 16px;
   padding-bottom: calc(12px+ constant(safe-area-inset-bottom));//兼容 IOS<11.2
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+.section-item{
+  background: #ffffff;
+  padding: 0 16px 16px;
 }
 .split{
   width: 100%;
@@ -19,6 +21,7 @@
 .page-top{
   height: .98rem;
   line-height: .98rem;
+  padding-left: .05rem;
 }
 .type-slect{
   margin-top: .5rem;
@@ -29,6 +32,7 @@
   text-align: center;
   color: rgba(47,51,56,0.60);
   line-height: .34rem;
+  padding-left: .18rem;
   .type-item{
     width: 1.22rem;
   }
@@ -88,10 +92,11 @@
 .sum-content{
   display: flex;
   font-size: 20px;
-  padding: .5rem 0;
+  margin: .5rem 0;
   color: #2F3338;
   padding-left: .28rem;
   .num-item{
+    margin-right: .48rem;
     .sub-title{
       color: #8f8f91;
       font-size: .28rem;
@@ -109,21 +114,26 @@
     }
   }
   .num-normal{
-    margin-left: .42rem;
-    .num{
-      font-size: .24rem;
+    font-size: .24rem;
+    font-weight: 400;
+    .num{  
       color: #DF3031;
-      padding-left: 19px;
       position: relative;
-      font-weight: 400;
       &::after{
         content: ' ';
         width: .28rem;
         height: .28rem;
         position: absolute;
-        right: -9px;
-        top: .28rem;
+        right: -16px;
+        bottom: .28rem;
         background-image: url('../../assets/up.png');
+        background-size: 100%;
+      }
+    }
+    .down-num{  
+      color: #4CAD7A;
+      &::after{
+        background-image: url('../../assets/down.png');
         background-size: 100%;
       }
     }
@@ -178,4 +188,7 @@
 .arrow.open::after{
   transform: rotate(-45deg);
   top: 40%;
+}
+.second-section{
+  margin-top: .24rem;
 }

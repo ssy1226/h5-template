@@ -27,6 +27,9 @@ class Store {
   static getYVSSply = () => {
     return request(`/${api}/api/v1/revenue/ytd/vs-sply`,'GET', {}, true);
   }
+  static getProgress = () => {
+    return request(`/${api}/api/v1/revenue/time-progress`,'GET', {}, true);
+  }
 }
 
 export default Store

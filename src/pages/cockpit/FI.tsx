@@ -117,13 +117,13 @@ const getLineOption = ({x,y})=>{
 export default () => {
   const [showYTD, setShowYTD] = useState(true);
   const [yearLineData, setYearLineData] = useState({x:[],y:[]});
-  const [yearPieData, setYearPieData] = useState([]);
-  const [monthPieData, setMonthPieData] = useState([]);
+  const [pieData, setPieData] = useState([]);
   const [yearPointer, setYearPointer] = useState('--');
   const [monthPointer, setMonthPointer] = useState('--');
   const [yearVsSply, setYearVsSply] = useState('--');
   const [monthVsSply, setMonthVsSply] = useState('--');
   const [yearFinishRate, setYearFinishRate] = useState('--');
+  const [progress, setProgress] = useState('--');
   const formatePieData = (data)=>{
     let res: any = [];
     for(let key in data){
@@ -147,7 +147,7 @@ export default () => {
   }
   const getYearData = ()=>{
     Store.getYDepartment().then((res)=>{
-      setYearPieData(formatePieData(res.data))
+      setPieData(formatePieData(res.data))
     })
     Store.getYPointerValues().then((res)=>{
       setYearPointer(res.data);
@@ -159,12 +159,15 @@ export default () => {
       setYearFinishRate(res.data);
     })
     Store.getMPointerValues({months: 12}).then((res)=>{
-      setYearLineData(formateLineData(res.data))
+      setYearLineData(formateLineData(res.data));
+    })
+    Store.getProgress().then((res)=>{
+      setProgress(res.data);
     })
   }
   const getMonthData = ()=>{
     Store.getMDepartment().then((res)=>{
-      setMonthPieData(formatePieData(res.data))
+      setPieData(formatePieData(res.data))
     })
     Store.getMPointerValue().then((res)=>{
       setMonthPointer(res.data);
@@ -176,12 +179,12 @@ export default () => {
       setMonthVsSply(res.data);
     })
   }
-  const showMonthData = ()=>{
-    if(showYTD){
-      setShowYTD(false)
+  const showMonthData = (YTD)=>{
+    setShowYTD(YTD);
+    if(YTD){
+      getYearData();
     } else {
       getMonthData();
-      setShowYTD(true);
     }
   }
   useEffect(() => {
@@ -189,52 +192,53 @@ export default () => {
   }, []);
   return (
     <div className='index-page' data-theme="light-theme">
-      <section>
-        <div className='section-content'>
-          <div className='display-flex page-top'>
-            <div className='section-tilte'>营业收入情况</div>
-            <div className='section-time'>*数据更新时间：2021-11-30</div>
+      <div className='section-item'>
+        <section>
+          <div className='section-content'>
+            <div className='display-flex page-top'>
+              <div className='section-tilte'>营业收入情况</div>
+              <div className='section-time'>*数据更新时间：2021-11-30</div>
+            </div>
           </div>
-        </div>
-      </section>
-      <div className='split'></div>
-      <div className='type-slect'>
-        <div className={`type-item ${showYTD?'type-slected':''}`} onClick={()=>{setShowYTD(true)}}>YTD收入</div>
-        <div className={`type-item ${showYTD?'':'type-slected'}`} onClick={()=>{setShowYTD(false)}}>当月收入</div>
-      </div>
-      <div className='section-content'>
-        <div className='sum-content sum-month'>
-          <div className='num-item'>
-            <div className='sub-title'>总金额(亿元)</div>
-            <div className='num'><span className='data'>{showYTD?yearPointer:monthPointer}</span></div>
+          <div className='split'></div>
+          <div className='type-slect'>
+            <div className={`type-item ${showYTD?'type-slected':''}`} onClick={()=>{showMonthData(true)}}>YTD收入</div>
+            <div className={`type-item ${showYTD?'':'type-slected'}`} onClick={()=>{showMonthData(false)}}>当月收入</div>
           </div>
-          <div className='num-item num-normal'>
-            <div className='sub-title'>{showYTD?'同比值':'环比'}</div>
-            <div className='num'>{showYTD?yearVsSply:monthVsSply}</div>
+          <div className='section-content'>
+            <div className='sum-content sum-month'>
+              <div className='num-item'>
+                <div className='sub-title'>总金额(亿元)</div>
+                <div className='num'><span className='data'>{showYTD?yearPointer:monthPointer}</span></div>
+              </div>
+              <div className='num-item num-normal'>
+                <div className='sub-title'>{showYTD?'同比值':'环比'}</div>
+                <div className='num'>{showYTD?yearVsSply:monthVsSply}</div>
+              </div>
+            </div>
+            {showYTD&&<><div className='rate-bar'>
+              <div className='rate-desc'>预算完成率</div>
+              <div className='rate-chart'><div className='real-bar finish' style={{width: yearFinishRate}}></div></div>
+              <div className='rate-data'>{yearFinishRate}</div>
+            </div>
+            <div className='rate-bar'>
+              <div className='rate-desc'>时间进度</div>
+              <div className='rate-chart'><div className='real-bar time' style={{width: progress}}></div></div>
+              <div className='rate-data'>{progress}</div>
+            </div></>}
           </div>
-        </div>
-        {showYTD&&<><div className='rate-bar'>
-          <div className='rate-desc'>预算完成率</div>
-          <div className='rate-chart'><div className='real-bar finish' style={{width: yearFinishRate}}></div></div>
-          <div className='rate-data'>{yearFinishRate}</div>
-        </div>
-        <div className='rate-bar'>
-          <div className='rate-desc'>时间进度</div>
-          <div className='rate-chart'><div className='real-bar time' style={{width: yearFinishRate}}></div></div>
-          <div className='rate-data'>{yearFinishRate}</div>
-        </div></>}
-      </div>
-      <div className='split'></div>
-      <section className='chart'>
-        <div className='chart-title'>营业收入占比</div>
-        <Chart
-          style={{ height: '100%', width: '100%'}}
-          options={getPieOption(yearPieData)}
-          components={[PieChart]}
-        />
-      </section>
-      <div className='split'></div>
-      <section className='month-bar-chart'>
+        </section>
+        <div className='split'></div>
+        <section className='chart'>
+          <div className='chart-title'>营业收入占比</div>
+          <Chart
+            style={{ height: '100%', width: '100%'}}
+            options={getPieOption(pieData)}
+            components={[PieChart]}
+          />
+        </section>
+        <div className='split'></div>
+        <section className='month-bar-chart'>
           <div className='chart-title'>营收趋势</div>
           <Chart
               style={{ height: '100%',width: '100%', }}
@@ -242,6 +246,43 @@ export default () => {
               components={[BarChart]}
             />
         </section>
+      </div>
+      <div className='section-item second-section'>
+        <section>
+          <div className='display-flex page-top'>
+            <div className='section-tilte'>净利润</div>
+          </div>
+          <div className='split'></div>
+          <div className='section-content'>
+            <div className='sum-content sum-month'>
+              <div className='num-item'>
+                <div className='sub-title'>总金额(亿元)</div>
+                <div className='num'><span className='data'>{showYTD?yearPointer:monthPointer}</span></div>
+              </div>
+            </div>
+            <div className='sum-content'>
+              <div className='num-item num-normal'>
+                <div className='sub-title'>同比值</div>
+                <div className='num'>{yearVsSply}</div>
+              </div>
+              <div className='num-item num-normal'>
+                <div className='sub-title'>环比值</div>
+                <div className='num down-num'>{yearVsSply}</div>
+              </div>
+            </div>
+            <div className='rate-bar'>
+              <div className='rate-desc'>预算完成率</div>
+              <div className='rate-chart'><div className='real-bar finish' style={{width: yearFinishRate}}></div></div>
+              <div className='rate-data'>{yearFinishRate}</div>
+            </div>
+            <div className='rate-bar'>
+              <div className='rate-desc'>时间进度</div>
+              <div className='rate-chart'><div className='real-bar time' style={{width: progress}}></div></div>
+              <div className='rate-data'>{progress}</div>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
     
   );

@@ -14,6 +14,11 @@ const tabs = [
     path: '/cockpit/BI'
   },
   {
+    title: '网点及人员',
+    selected: false,
+    path: '/qcc'
+  },
+  {
     title: '风险管理',
     selected: false,
     path: '/cockpit/RM'
@@ -21,7 +26,6 @@ const tabs = [
 ]
 
 function TopBar() {
-
   const history = useHistory()
   const pathname = history.location.pathname
   const [tabBar, settabBar] = useState(tabs)
@@ -36,10 +40,14 @@ function TopBar() {
   }
   const [hideTab, sethideTab] = useState(false)
   useEffect(() => {
-    console.log();
-    console.log('pathname', pathname, tabs.map(item => item.path).includes(pathname));
+    settabBar(
+      tabBar.map((tab) => {
+        tab.selected = tab.path === pathname
+        return tab
+      })
+    )
     sethideTab(!tabs.map(item => item.path).includes(pathname))
-  }, [pathname])
+  }, []);
   return (
     <div className='top-bar' style={{
       display: hideTab ? 'none' : 'flex'
