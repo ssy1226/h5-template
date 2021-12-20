@@ -6,7 +6,7 @@ import './index.scss';
 const getPieOption = (data) => {
   return {
     color: [
-      '#C4DDFD', '#9CBCFF', '#7FA7FA', '#6695F9', '#4E85F4','#366BD8'
+      '#913C3C', '#CBAA7B', '#BEC0C2', '#C7674B', '#8A90A5','#DF9753'
     ],
     tooltip: {
       trigger: 'item',
@@ -29,7 +29,7 @@ const getPieOption = (data) => {
         name: '',
         type: 'pie',
         radius: ['20%', '65%'],
-        roseType: 'radius',
+        roseType: 'angle',
         left: 0,
         center: ['50%', '40%'],
         avoidLabelOverlap: false,
@@ -73,7 +73,7 @@ const getPieOption = (data) => {
 const getLineOption = ({x,y})=>{
   return {
     color: [
-      '#5B8FF9',
+      '#CBAA7B',
     ],
     tooltip: {
       trigger: 'axis',
@@ -129,7 +129,8 @@ export default () => {
     for(let key in data){
       res.push({
         value: data[key],
-        name: key
+        name: key,
+        itemStyle: {borderWidth: 3, borderColor: '#fff'}
       })
     }
     res.sort((a, b)=>a.value-b.value)
@@ -156,6 +157,9 @@ export default () => {
     })
     Store.getYFinishRate().then((res)=>{
       setYearFinishRate(res.data);
+    })
+    Store.getMPointerValues({months: 12}).then((res)=>{
+      setYearLineData(formateLineData(res.data))
     })
   }
   const getMonthData = ()=>{
@@ -211,16 +215,33 @@ export default () => {
         </div>
         {showYTD&&<><div className='rate-bar'>
           <div className='rate-desc'>预算完成率</div>
-          <div className='rate-chart'><div className='real-bar' style={{width: yearFinishRate}}></div></div>
+          <div className='rate-chart'><div className='real-bar finish' style={{width: yearFinishRate}}></div></div>
           <div className='rate-data'>{yearFinishRate}</div>
         </div>
         <div className='rate-bar'>
           <div className='rate-desc'>时间进度</div>
-          <div className='rate-chart'></div>
-          <div className='rate-data'></div>
+          <div className='rate-chart'><div className='real-bar time' style={{width: yearFinishRate}}></div></div>
+          <div className='rate-data'>{yearFinishRate}</div>
         </div></>}
       </div>
       <div className='split'></div>
+      <section className='chart'>
+        <div className='chart-title'>营业收入占比</div>
+        <Chart
+          style={{ height: '100%', width: '100%'}}
+          options={getPieOption(yearPieData)}
+          components={[PieChart]}
+        />
+      </section>
+      <div className='split'></div>
+      <section className='month-bar-chart'>
+          <div className='chart-title'>营收趋势</div>
+          <Chart
+              style={{ height: '100%',width: '100%', }}
+              options={getLineOption(yearLineData)}
+              components={[BarChart]}
+            />
+        </section>
     </div>
     
   );

@@ -50,11 +50,22 @@
     width: 3.13rem;
     height: 4px;
     opacity: 0.62;
+    margin-right: .32rem;
     background: #d8d8d8;
     border-radius: 2px;
+    overflow: hidden;
   }
   .rate-desc,.rate-data{
     flex: 1;
+  }
+  .real-bar{
+    height: 4px;
+  }
+  .finish{
+    background: #C7674B;
+  }
+  .time{
+    background: #DF9753;
   }
 }
 .section-tilte{
@@ -90,21 +101,11 @@
       font-weight: 700;
       line-height: .8rem;
     }
-    .unit{
-      font-size: 12px;
-      margin-left: 4px;
-      color: #8f8f91;
-      font-weight: 400;
-    }
     .progress-bar{
       width: 1.38rem;
       height: 4px;
       opacity: 0.62;
       background: #d8d8d8;
-      .real-bar{
-        height: 4px;
-        background: #6495fa;
-      }
     }
   }
   .num-normal{
@@ -143,7 +144,7 @@
 .chart-title{
   font-size: .24rem;
   font-weight: 500;
-  color: #2f3338;
+  color: rgba(47,51,56,0.65);
   line-height: .34rem;
 }
 .button{

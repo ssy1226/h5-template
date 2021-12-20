@@ -27,7 +27,6 @@ class Store {
   static getYVSSply = () => {
     return request(`/${api}/api/v1/revenue/ytd/vs-sply`,'GET', {}, true);
   }
-
 }
 
 export default Store
