@@ -1,10 +1,11 @@
 // 预发布环境配置
 export default {
-  ENV_TYPE: 'staging',
+  ENV_TYPE: 'test',
   BASE_URL: '', // api请求地址
   APPID: "ww3d2df28238caec81",
   AGENTID: "1000141",
   APPSECRET: "1VQfJXip6IbAGFCdP7d2j3QV-K68SHIQxTwyo7pVU0U",
+  WXORIGIN: 'https://open.weixin.qq.com'
 } as EnvConfig
 
 
