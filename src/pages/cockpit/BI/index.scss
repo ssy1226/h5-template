@@ -1,0 +1,35 @@
+#root {
+    padding: 0 !important;
+}
+
+.BI-page {
+    background: #efefef;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .content {
+        max-width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 402px;
+            height: 402px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 32px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            color: #606060;
+            line-height: 45px;
+        }
+    }
+}
