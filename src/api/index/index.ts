@@ -1,4 +1,5 @@
 import request from '../request'
+const api = 'manager-mp-server'
 
 interface InfoListItem {
   name: string
@@ -6,8 +7,9 @@ interface InfoListItem {
 }
 
 class IndexApi {
-  static getList = (params: { type: number }): Promise<InfoListItem[]> =>
-    request('/api/getInfo', 'GET', params, true)
+  static getUserInfo = (code) =>{
+    return request(`/${api}/api/v1/user/getUserInfo`,'GET', {code}, true);
+  }
 
   static updateInfo = (params: {
     name: string

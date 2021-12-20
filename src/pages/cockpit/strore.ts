@@ -13,7 +13,7 @@ class Store {
     return request(`/${api}/api/v1/revenue/month/vs-lp`,'GET',{}, true);
   }
   static getMPointerValue = () => {
-    return request(`/${api}/api/v1/revenue/ytd/pointer-value`,'GET',{}, true);
+    return request(`/${api}/api/v1/revenue/month/pointer-value`,'GET',{}, true);
   }
   static getYDepartment = () => {
     return request(`/${api}/api/v1/revenue/ytd/department-values`,'GET',{}, true);
@@ -27,7 +27,9 @@ class Store {
   static getYVSSply = () => {
     return request(`/${api}/api/v1/revenue/ytd/vs-sply`,'GET', {}, true);
   }
-
+  static getProgress = () => {
+    return request(`/${api}/api/v1/revenue/time-progress`,'GET', {}, true);
+  }
 }
 
 export default Store

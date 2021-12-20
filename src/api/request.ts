@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, Method } from 'axios'
 import envConfig from '@/config'
 import { Toast } from 'antd-mobile'
 import { getHttpStatusText } from './status'
+import { cookie } from "@/utils/tools";
 // import { LoadingElement } from '@/components/loading'
 /**
  * 接口返回类型 (根据后端返回的格式定义)
@@ -23,7 +24,7 @@ const initAxios = (loading?: boolean) => {
     timeout: TIMEOUT,
     withCredentials: false
   })
-
+  let token = cookie().get('token')
   // request interceptor
   AxiosInstance.interceptors.request.use(config => {
     if (loading) Toast.loading('加载中')
@@ -31,7 +32,8 @@ const initAxios = (loading?: boolean) => {
     // if (loading) Toast.loading(LoadingElement, TIMEOUT)
     // 自定义headers
     config.headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': token
     }
     return config
   })
