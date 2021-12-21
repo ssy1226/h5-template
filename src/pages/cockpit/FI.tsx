@@ -118,8 +118,8 @@ export default () => {
   const [showYTD, setShowYTD] = useState(true);
   const [yearLineData, setYearLineData] = useState({x:[],y:[]});
   const [pieData, setPieData] = useState([]);
-  const [yearPointer, setYearPointer] = useState('--');
-  const [monthPointer, setMonthPointer] = useState('--');
+  const [yearPointer, setYearPointer] = useState({idxValue:'--', dataDate: '--'});
+  const [monthPointer, setMonthPointer] = useState({idxValue:'--', dataDate: '--'});
   const [yearVsSply, setYearVsSply] = useState('--');
   const [monthVsSply, setMonthVsSply] = useState('--');
   const [yearFinishRate, setYearFinishRate] = useState('--');
@@ -155,7 +155,12 @@ export default () => {
       res.code===200 && setPieData(formatePieData(res.data))
     })
     Store.getYPointerValues().then((res)=>{
-      res.code===200 && setYearPointer(res.data);
+      if(res.code===200){
+        let {idxValue, dataDate} = res.data;
+        dataDate = `${dataDate.slice(0,4)}-${dataDate.slice(4,6)}-${dataDate.slice(6,8)}`;
+        setYearPointer({idxValue, dataDate})
+      }
+      // res.code===200 && setYearPointer(res.data);
     })
     Store.getYVSSply().then((res)=>{
       res.code===200 && setYearVsSply(res.data);
@@ -187,7 +192,11 @@ export default () => {
       res.code===200 && setPieData(formatePieData(res.data))
     })
     Store.getMPointerValue().then((res)=>{
-      res.code===200 && setMonthPointer(res.data);
+      if(res.code===200){
+        let {idxValue, dataDate} = res.data;
+        dataDate = `${dataDate.slice(0,4)}-${dataDate.slice(4,6)}-${dataDate.slice(6,8)}`;
+        setMonthPointer({idxValue, dataDate})
+      }
     })
     Store.getMPointerValues({months: 12}).then((res)=>{
       res.code===200 && setYearLineData(formateLineData(res.data))
@@ -214,7 +223,7 @@ export default () => {
           <div className='section-content'>
             <div className='display-flex page-top'>
               <div className='section-tilte'>营业收入情况</div>
-              <div className='section-time'>*数据更新时间：2021-11-30</div>
+              <div className='section-time'>*数据更新时间：{showYTD?yearPointer.dataDate:monthPointer.dataDate}</div>
             </div>
           </div>
           <div className='split'></div>
@@ -226,7 +235,7 @@ export default () => {
             <div className='sum-content sum-month'>
               <div className='num-item'>
                 <div className='sub-title'>总金额(亿元)</div>
-                <div className='num'><span className='data'>{showYTD?yearPointer:monthPointer}</span></div>
+                <div className='num'><span className='data'>{showYTD?yearPointer.idxValue:monthPointer.idxValue}</span></div>
               </div>
               <div className='num-item num-normal'>
                 <div className='sub-title'>{showYTD?'同比值':'环比'}</div>

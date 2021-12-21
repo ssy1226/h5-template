@@ -17,12 +17,11 @@ const Layout = ()=>{
     const code = getQuery('code');
     const token = cookie().get('token');
     if(!token){
-      // let code = '张乐乐'
       if(code){
         Api.getUserInfo(code).then((res)=>{
           if(res.code===200){
             const cookieSet = cookie().set;
-            cookieSet('token', res.data, 10);
+            cookieSet('token', res.data, 1);
             const routesDom = rendeRoutes(routes);
             setRoutesDom(routesDom);
           } else {

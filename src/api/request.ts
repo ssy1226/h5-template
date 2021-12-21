@@ -95,9 +95,9 @@ export default function request(
       .then(res => {
         const data = res.data as ResponseType<any>
         // 这里可以添加和后台的 status 约定
-        // if (data.code !== 200) {
-        //   Toast.info(data.msg)
-        // }
+        if (data.code !== 200) {
+          Toast.info(data.msg)
+        }
         resolve(data)
       })
       .catch(err => {
