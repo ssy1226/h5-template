@@ -10,9 +10,7 @@ import { routes } from './routes'
 
 const Layout = ()=>{
   const [routesDom, setRoutesDom] = useState([]);
-  useEffect(() => {
-    getUserInfo()
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUserInfo = ()=>{
     const code = getQuery('code');
     const token = cookie().get('token');
@@ -35,7 +33,7 @@ const Layout = ()=>{
           setRoutesDom(routesDom);
         })
       }else{
-        // window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
+        window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
       }
       
     } else {
@@ -43,6 +41,10 @@ const Layout = ()=>{
       setRoutesDom(routesDom);
     }
   }
+
+  useEffect(() => {
+    getUserInfo()
+  }, [getUserInfo]);
 
   const rendeRoutes = (routes) => {
     if (!routes.length) {
