@@ -124,6 +124,11 @@ export default () => {
   const [monthVsSply, setMonthVsSply] = useState('--');
   const [yearFinishRate, setYearFinishRate] = useState('--');
   const [progress, setProgress] = useState('--');
+  const [pMVsSply, setPMVsSply] = useState('--');
+  const [pYFinishRate, setPYFinishRate] = useState('--');
+  const [pYPointer, setPPointer] = useState('--');
+  const [pYVsSpl, setPYVsSpl] = useState('--');
+
   const formatePieData = (data)=>{
     let res: any = [];
     for(let key in data){
@@ -163,6 +168,18 @@ export default () => {
     })
     Store.getProgress().then((res)=>{
       res.code===200 && setProgress(res.data);
+    })
+    Store.getProfitMVslp().then((res)=>{
+      res.code===200 && setPMVsSply(res.data);
+    })
+    Store.getProfitYFinishRate().then((res)=>{
+      res.code===200 && setPYFinishRate(res.data);
+    })
+    Store.getProfitYPointerValue().then((res)=>{
+      res.code===200 && setPPointer(res.data);
+    })
+    Store.getProfitYVSSply().then((res)=>{
+      res.code===200 && setPYVsSpl(res.data);
     })
   }
   const getMonthData = ()=>{
@@ -257,23 +274,23 @@ export default () => {
             <div className='sum-content sum-month'>
               <div className='num-item'>
                 <div className='sub-title'>总金额(亿元)</div>
-                <div className='num'><span className='data'>{showYTD?yearPointer:monthPointer}</span></div>
+                <div className='num'><span className='data'>{pYPointer}</span></div>
               </div>
             </div>
             <div className='sum-content'>
               <div className='num-item num-normal'>
                 <div className='sub-title'>同比值</div>
-                <div className='num'>{yearVsSply}</div>
+                <div className='num'>{pYVsSpl}</div>
               </div>
               <div className='num-item num-normal'>
                 <div className='sub-title'>环比值</div>
-                <div className='num down-num'>{yearVsSply}</div>
+                <div className='num down-num'>{pMVsSply}</div>
               </div>
             </div>
             <div className='rate-bar'>
               <div className='rate-desc'>预算完成率</div>
-              <div className='rate-chart'><div className='real-bar finish' style={{width: yearFinishRate}}></div></div>
-              <div className='rate-data'>{yearFinishRate}</div>
+              <div className='rate-chart'><div className='real-bar finish' style={{width: pYFinishRate}}></div></div>
+              <div className='rate-data'>{pYFinishRate}</div>
             </div>
             <div className='rate-bar'>
               <div className='rate-desc'>时间进度</div>

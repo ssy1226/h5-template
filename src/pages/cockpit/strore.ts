@@ -30,6 +30,18 @@ class Store {
   static getProgress = () => {
     return request(`/${api}/api/v1/revenue/time-progress`,'GET', {}, true);
   }
+  static getProfitMVslp = () => {
+    return request(`/${api}/api/v1/net-profit/vs-lp`,'GET', {}, true);
+  }
+  static getProfitYFinishRate = () => {
+    return request(`/${api}/api/v1/net-profit/finish-rate`,'GET', {}, true);
+  }
+  static getProfitYPointerValue = () => {
+    return request(`/${api}/api/v1/net-profit/pointer-value`,'GET', {}, true);
+  }
+  static getProfitYVSSply = () => {
+    return request(`/${api}/api/v1/net-profit/vs-sply`,'GET', {}, true);
+  }
 }
 
 export default Store

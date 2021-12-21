@@ -14,7 +14,7 @@ export interface ResponseType<T> {
   code: number
 }
 
-const TIMEOUT = 5000
+const TIMEOUT = 10000
 const TOAST_DURATION = 2
 
 const initAxios = (loading?: boolean) => {
