@@ -7,12 +7,10 @@ import { cookie } from "@/utils/tools";
 import './index.scss';
 const getPieOption = (data) => {
   return {
-    color: [
-      '#913C3C', '#CBAA7B', '#BEC0C2', '#C7674B', '#8A90A5','#DF9753'
-    ],
     tooltip: {
       trigger: 'item',
       formatter: '{b} : {c}, ({d}%)',
+      borderWidth: 0,
     },
     legend: {
       orient: 'horizontal',
@@ -20,6 +18,7 @@ const getPieOption = (data) => {
       itemHeight: 16,
       itemWidth: 16,
       bottom: '15%',
+      data: ['IB','CCM','AM','EQ','WM','FI'],
       textStyle:{
         color: 'rgba(44,53,66,0.65)',
         fontSize:12,
@@ -39,15 +38,14 @@ const getPieOption = (data) => {
           align: 'left',
           position: 'outer',
           alignTo: 'labelLine',
-          formatter: '{department|{b}}\n{percent|{d}%}\n\n',
-          minMargin: 20,
+          formatter: '{department|{b} {c}}\n{percent|{d}%}\n\n',
           lineHeight: 15,
           rich: {
           }
         },
         labelLine: {
-          length: 10,
-          length2: 10,
+          length: 5,
+          length2: 5,
           maxSurfaceAngle: 80
         },
         labelLayout: function (params) {
@@ -63,9 +61,7 @@ const getPieOption = (data) => {
         data,
         emphasis: {
           itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
+            borderWidth: 0,
           }
         }
       }
@@ -92,7 +88,10 @@ const getLineOption = ({x,y})=>{
         },
         axisLabel: {
           interval:0,
-          rotate:40
+          rotate:40,
+          textStyle: {
+            fontSize : 10
+          }
        }
       }
     ],
@@ -100,6 +99,12 @@ const getLineOption = ({x,y})=>{
       {
         type: 'value',
         name: '单位：亿',
+        nameGap: 20,
+        axisLine:{},
+        nameTextStyle:{
+          padding:[0,0,0,-10],
+          fontSize: 10
+       }
       }
     ],
     series: [
@@ -108,6 +113,9 @@ const getLineOption = ({x,y})=>{
         label: {
           show: true,
           position: 'top',
+          textStyle:{
+            fontSize: 10
+          }
         },
         type: 'bar',
         barWidth: '50%',
@@ -132,12 +140,20 @@ export default () => {
   const [pYVsSpl, setPYVsSpl] = useState('--');
 
   const formatePieData = (data)=>{
+    const color= { 
+      'IB':'#913C3C',
+      'CCM':'#CBAA7B', 
+      'AM':'#BEC0C2', 
+      'EQ':'#C7674B',
+      'WM':'#8A90A5',
+      'FI':'#DF9753'
+    };
     let res: any = [];
     for(let key in data){
       res.push({
         value: data[key],
         name: key,
-        itemStyle: {borderWidth: 3, borderColor: '#fff'}
+        itemStyle: {borderWidth: 3, borderColor: '#fff',color:color[key]}
       })
     }
     res.sort((a, b)=>a.value-b.value)
