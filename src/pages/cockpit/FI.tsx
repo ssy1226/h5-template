@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { PieChart, BarChart  } from 'echarts/charts';
 import Store from "./strore";
 import Chart from '@/components/charts';
+import envConfig from '@/config'
+import { cookie } from "@/utils/tools";
 import './index.scss';
 const getPieOption = (data) => {
   return {
@@ -152,7 +154,11 @@ export default () => {
   }
   const getYearData = ()=>{
     Store.getYDepartment().then((res)=>{
-      res.code===200 && setPieData(formatePieData(res.data))
+      res.code===200 && setPieData(formatePieData(res.data));
+      if(res.code===500){
+        cookie().remove('token');
+        window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
+      }
     })
     Store.getYPointerValues().then((res)=>{
       if(res.code===200){
