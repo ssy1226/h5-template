@@ -1,0 +1,47 @@
+.no-auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    .auth-detail {
+        max-width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 201px;
+            height: 201px;
+        }
+
+        p {
+            margin-top: 14px;
+            font-size: 16px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            text-align: center;
+            color: #606060;
+            line-height: 23px;
+        }
+
+        .tips-text {
+            max-width: 277px;
+            white-space: wrap;
+            text-align: center;
+            font-size: 14px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            text-align: center;
+            color: #606060;
+            line-height: 30px;
+
+            .tips-name {
+                color: #933f3f;
+            }
+        }
+    }
+}
