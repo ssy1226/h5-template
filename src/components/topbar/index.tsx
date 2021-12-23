@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, withRouter, NavLink  } from 'react-router-dom';
 import "./index.scss";
 
 const tabs = [
@@ -16,7 +16,7 @@ const tabs = [
   {
     title: '网点及人员',
     selected: false,
-    path: '/qcc'
+    path: '/cockpit/OP'
   },
   {
     title: '风险管理',
@@ -27,33 +27,19 @@ const tabs = [
 
 function TopBar() {
   const history = useHistory()
-  const pathname = history.location.pathname
-  const [tabBar, settabBar] = useState(tabs)
-  const changeTab = (index: number, path: string) => {
-    settabBar(
-      tabBar.map((tab, idx) => {
-        tab.selected = index === idx
-        return tab
-      })
-    )
-    history.push(path)
-  }
-  const [hideTab, sethideTab] = useState(false)
+  const pathname = history.location.pathname;
+  const [hideTab, sethideTab] = useState(false);
   useEffect(() => {
-    settabBar(
-      tabBar.map((tab) => {
-        tab.selected = tab.path === pathname
-        return tab
-      })
-    )
     sethideTab(!tabs.map(item => item.path).includes(pathname))
   }, [pathname]);
   return (
     <div className='top-bar' style={{
       display: hideTab ? 'none' : 'flex'
     }}>
-      {tabBar.map((item, index)=>
-        <div key={item.path} className={`tab-item ${item.selected?'selected':''}`} onClick={()=>{changeTab(index, item.path)}}>{item.title}</div>
+      {tabs.map((item, index)=>
+      <NavLink to={item.path} replace activeClassName="selected" className='tab-item' key={item.path}>
+        {item.title}
+      </NavLink>
       )}
     </div> 
   )

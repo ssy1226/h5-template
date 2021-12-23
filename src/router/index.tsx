@@ -15,12 +15,11 @@ const Layout = ()=>{
     const code = getQuery('code');
     const token = cookie().get('token');
     if(!token){
-      // let code = '张乐乐'
       if(code){
         Api.getUserInfo(code).then((res)=>{
           if(res.code===200){
             const cookieSet = cookie().set;
-            cookieSet('token', res.data, 10);
+            cookieSet('token', res.data, 1);
             const routesDom = rendeRoutes(routes);
             setRoutesDom(routesDom);
           } else {
@@ -44,13 +43,13 @@ const Layout = ()=>{
 
   useEffect(() => {
     getUserInfo()
-  }, [getUserInfo]);
+  }, []);
 
   const rendeRoutes = (routes) => {
     if (!routes.length) {
       return <Redirect to="/noAuth" />;
     }
-    return routes.map((routeItem) => {
+    return( routes.map((routeItem) => {
       const { path } = routeItem;
       return (
         <Route
@@ -66,7 +65,7 @@ const Layout = ()=>{
           path={path}
         />
       );
-    });
+    }));
   }
   return routesDom;
 }
@@ -83,11 +82,15 @@ const RouterGuard =()=> {
               exact
               path="/noAuth"
             />
+            <Route path='/' exact render={()=> (
+               <Redirect to= '/cockpit/FI' />
+            )}/>
             <Route
              // @ts-ignore
               component={Layout}
               path="*"
             />
+            
           </Switch>
         </Suspense>
     </BrowserRouter>

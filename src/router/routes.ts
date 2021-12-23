@@ -23,6 +23,11 @@ export const routes: RouteConfig[] = [
     exact: true
   },
   {
+    path: '/cockpit/OP',
+    component:loadable(() => import('@/pages/cockpit/BI')),
+    exact: true
+  },
+  {
     path: '/cockpit/RM',
     component: loadable(() => import('@/pages/cockpit/RM')),
     exact: true

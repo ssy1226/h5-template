@@ -17,6 +17,8 @@
   height: 2px;
   opacity: 0.4;
   background: #d8d8d8;
+  transform:scaleY(0.5);
+  -webkit-transform: scaleY(0.5);
 }
 .page-top{
   height: .98rem;
@@ -26,12 +28,12 @@
 .type-slect{
   margin-top: .5rem;
   display: flex;
-  height: .34rem;
+  height: .42rem;
   font-size: .24rem;
   font-weight: 500;
   text-align: center;
   color: rgba(47,51,56,0.60);
-  line-height: .34rem;
+  line-height: .42rem;
   padding-left: .18rem;
   .type-item{
     width: 1.22rem;
@@ -39,7 +41,7 @@
   .type-slected{
     color: #ffffff;
     background: #b34f4f;
-    border-radius: 4px;
+    border-radius: 2px;
   }
 }
 .rate-bar{
@@ -53,9 +55,8 @@
   .rate-chart{
     width: 3.13rem;
     height: 4px;
-    opacity: 0.62;
     margin-right: .32rem;
-    background: #d8d8d8;
+    background: rgba(216,216,216,0.6);
     border-radius: 2px;
     overflow: hidden;
   }
@@ -66,7 +67,7 @@
     height: 4px;
   }
   .finish{
-    background: #C7674B;
+    background: #C7674C;
   }
   .time{
     background: #DF9753;
@@ -114,18 +115,18 @@
     }
   }
   .num-normal{
-    font-size: .24rem;
+    font-size: .32rem;
     font-weight: 400;
     .num{  
       color: #DF3031;
       position: relative;
       &::after{
         content: ' ';
-        width: .28rem;
-        height: .28rem;
+        width: .32rem;
+        height: .32rem;
         position: absolute;
-        right: -16px;
-        bottom: .28rem;
+        right: -18px;
+        bottom: .24rem;
         background-image: url('../../assets/up.png');
         background-size: 100%;
       }
@@ -156,6 +157,7 @@
   font-weight: 500;
   color: rgba(47,51,56,0.65);
   line-height: .34rem;
+  margin-bottom: .16rem;
 }
 .button{
   height: .84rem;

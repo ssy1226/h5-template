@@ -2,15 +2,15 @@ import React, {useEffect, useState} from 'react';
 import { PieChart, BarChart  } from 'echarts/charts';
 import Store from "./strore";
 import Chart from '@/components/charts';
+import envConfig from '@/config'
+import { cookie } from "@/utils/tools";
 import './index.scss';
 const getPieOption = (data) => {
   return {
-    color: [
-      '#913C3C', '#CBAA7B', '#BEC0C2', '#C7674B', '#8A90A5','#DF9753'
-    ],
     tooltip: {
       trigger: 'item',
       formatter: '{b} : {c}, ({d}%)',
+      borderWidth: 0,
     },
     legend: {
       orient: 'horizontal',
@@ -18,6 +18,7 @@ const getPieOption = (data) => {
       itemHeight: 16,
       itemWidth: 16,
       bottom: '15%',
+      data: ['IB','CCM','AM','EQ','WM','FI'],
       textStyle:{
         color: 'rgba(44,53,66,0.65)',
         fontSize:12,
@@ -37,15 +38,14 @@ const getPieOption = (data) => {
           align: 'left',
           position: 'outer',
           alignTo: 'labelLine',
-          formatter: '{department|{b}}\n{percent|{d}%}\n\n',
-          minMargin: 20,
+          formatter: '{department|{b} {c}}\n{percent|{d}%}\n\n',
           lineHeight: 15,
           rich: {
           }
         },
         labelLine: {
-          length: 10,
-          length2: 10,
+          length: 5,
+          length2: 5,
           maxSurfaceAngle: 80
         },
         labelLayout: function (params) {
@@ -61,9 +61,7 @@ const getPieOption = (data) => {
         data,
         emphasis: {
           itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
+            borderWidth: 0,
           }
         }
       }
@@ -75,12 +73,6 @@ const getLineOption = ({x,y})=>{
     color: [
       '#CBAA7B',
     ],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
     xAxis: [
       {
         type: 'category',
@@ -90,7 +82,10 @@ const getLineOption = ({x,y})=>{
         },
         axisLabel: {
           interval:0,
-          rotate:40
+          rotate:40,
+          textStyle: {
+            fontSize : 10
+          }
        }
       }
     ],
@@ -98,6 +93,12 @@ const getLineOption = ({x,y})=>{
       {
         type: 'value',
         name: '单位：亿',
+        nameGap: 20,
+        axisLine:{},
+        nameTextStyle:{
+          padding:[0,0,0,-10],
+          fontSize: 10
+       }
       }
     ],
     series: [
@@ -106,10 +107,18 @@ const getLineOption = ({x,y})=>{
         label: {
           show: true,
           position: 'top',
+          textStyle:{
+            fontSize: 10
+          }
         },
         type: 'bar',
         barWidth: '50%',
-        data: y
+        data: y,
+        emphasis: {
+        	itemStyle: {
+                color: '#AE8A58'
+            }
+        }
       }
     ]
   };
@@ -118,19 +127,32 @@ export default () => {
   const [showYTD, setShowYTD] = useState(true);
   const [yearLineData, setYearLineData] = useState({x:[],y:[]});
   const [pieData, setPieData] = useState([]);
-  const [yearPointer, setYearPointer] = useState('--');
-  const [monthPointer, setMonthPointer] = useState('--');
+  const [yearPointer, setYearPointer] = useState({idxValue:'--', dataDate: '--'});
+  const [monthPointer, setMonthPointer] = useState({idxValue:'--', dataDate: '--'});
   const [yearVsSply, setYearVsSply] = useState('--');
   const [monthVsSply, setMonthVsSply] = useState('--');
   const [yearFinishRate, setYearFinishRate] = useState('--');
   const [progress, setProgress] = useState('--');
+  const [pMVsSply, setPMVsSply] = useState('--');
+  const [pYFinishRate, setPYFinishRate] = useState('--');
+  const [pYPointer, setPPointer] = useState('--');
+  const [pYVsSpl, setPYVsSpl] = useState('--');
+
   const formatePieData = (data)=>{
+    const color= { 
+      'IB':'#913C3C',
+      'CCM':'#CBAA7B', 
+      'AM':'#BEC0C2', 
+      'EQ':'#C7674B',
+      'WM':'#8A90A5',
+      'FI':'#DF9753'
+    };
     let res: any = [];
     for(let key in data){
       res.push({
         value: data[key],
         name: key,
-        itemStyle: {borderWidth: 3, borderColor: '#fff'}
+        itemStyle: {borderWidth: 3, borderColor: '#fff',color:color[key]}
       })
     }
     res.sort((a, b)=>a.value-b.value)
@@ -147,10 +169,19 @@ export default () => {
   }
   const getYearData = ()=>{
     Store.getYDepartment().then((res)=>{
-      res.code===200 && setPieData(formatePieData(res.data))
+      res.code===200 && setPieData(formatePieData(res.data));
+      if(res.code===500){
+        cookie().remove('token');
+        window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
+      }
     })
     Store.getYPointerValues().then((res)=>{
-      res.code===200 && setYearPointer(res.data);
+      if(res.code===200){
+        let {idxValue, dataDate} = res.data;
+        dataDate = `${dataDate.slice(0,4)}-${dataDate.slice(4,6)}-${dataDate.slice(6,8)}`;
+        setYearPointer({idxValue, dataDate})
+      }
+      // res.code===200 && setYearPointer(res.data);
     })
     Store.getYVSSply().then((res)=>{
       res.code===200 && setYearVsSply(res.data);
@@ -164,13 +195,29 @@ export default () => {
     Store.getProgress().then((res)=>{
       res.code===200 && setProgress(res.data);
     })
+    Store.getProfitMVslp().then((res)=>{
+      res.code===200 && setPMVsSply(res.data);
+    })
+    Store.getProfitYFinishRate().then((res)=>{
+      res.code===200 && setPYFinishRate(res.data);
+    })
+    Store.getProfitYPointerValue().then((res)=>{
+      res.code===200 && setPPointer(res.data);
+    })
+    Store.getProfitYVSSply().then((res)=>{
+      res.code===200 && setPYVsSpl(res.data);
+    })
   }
   const getMonthData = ()=>{
     Store.getMDepartment().then((res)=>{
       res.code===200 && setPieData(formatePieData(res.data))
     })
     Store.getMPointerValue().then((res)=>{
-      res.code===200 && setMonthPointer(res.data);
+      if(res.code===200){
+        let {idxValue, dataDate} = res.data;
+        dataDate = `${dataDate.slice(0,4)}-${dataDate.slice(4,6)}-${dataDate.slice(6,8)}`;
+        setMonthPointer({idxValue, dataDate})
+      }
     })
     Store.getMPointerValues({months: 12}).then((res)=>{
       res.code===200 && setYearLineData(formateLineData(res.data))
@@ -197,7 +244,7 @@ export default () => {
           <div className='section-content'>
             <div className='display-flex page-top'>
               <div className='section-tilte'>营业收入情况</div>
-              <div className='section-time'>*数据更新时间：2021-11-30</div>
+              <div className='section-time'>*数据更新时间：{showYTD?yearPointer.dataDate:monthPointer.dataDate}</div>
             </div>
           </div>
           <div className='split'></div>
@@ -209,7 +256,7 @@ export default () => {
             <div className='sum-content sum-month'>
               <div className='num-item'>
                 <div className='sub-title'>总金额(亿元)</div>
-                <div className='num'><span className='data'>{showYTD?yearPointer:monthPointer}</span></div>
+                <div className='num'><span className='data'>{showYTD?yearPointer.idxValue:monthPointer.idxValue}</span></div>
               </div>
               <div className='num-item num-normal'>
                 <div className='sub-title'>{showYTD?'同比值':'环比'}</div>
@@ -257,23 +304,23 @@ export default () => {
             <div className='sum-content sum-month'>
               <div className='num-item'>
                 <div className='sub-title'>总金额(亿元)</div>
-                <div className='num'><span className='data'>{showYTD?yearPointer:monthPointer}</span></div>
+                <div className='num'><span className='data'>{pYPointer}</span></div>
               </div>
             </div>
             <div className='sum-content'>
               <div className='num-item num-normal'>
                 <div className='sub-title'>同比值</div>
-                <div className='num'>{yearVsSply}</div>
+                <div className='num'>{pYVsSpl}</div>
               </div>
               <div className='num-item num-normal'>
                 <div className='sub-title'>环比值</div>
-                <div className='num down-num'>{yearVsSply}</div>
+                <div className='num down-num'>{pMVsSply}</div>
               </div>
             </div>
             <div className='rate-bar'>
               <div className='rate-desc'>预算完成率</div>
-              <div className='rate-chart'><div className='real-bar finish' style={{width: yearFinishRate}}></div></div>
-              <div className='rate-data'>{yearFinishRate}</div>
+              <div className='rate-chart'><div className='real-bar finish' style={{width: pYFinishRate}}></div></div>
+              <div className='rate-data'>{pYFinishRate}</div>
             </div>
             <div className='rate-bar'>
               <div className='rate-desc'>时间进度</div>
