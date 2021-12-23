@@ -73,12 +73,6 @@ const getLineOption = ({x,y})=>{
     color: [
       '#CBAA7B',
     ],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
     xAxis: [
       {
         type: 'category',
@@ -119,7 +113,12 @@ const getLineOption = ({x,y})=>{
         },
         type: 'bar',
         barWidth: '50%',
-        data: y
+        data: y,
+        emphasis: {
+        	itemStyle: {
+                color: '#AE8A58'
+            }
+        }
       }
     ]
   };

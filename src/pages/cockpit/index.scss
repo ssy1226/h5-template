@@ -17,6 +17,8 @@
   height: 2px;
   opacity: 0.4;
   background: #d8d8d8;
+  transform:scaleY(0.5);
+  -webkit-transform: scaleY(0.5);
 }
 .page-top{
   height: .98rem;
@@ -155,6 +157,7 @@
   font-weight: 500;
   color: rgba(47,51,56,0.65);
   line-height: .34rem;
+  margin-bottom: .16rem;
 }
 .button{
   height: .84rem;
