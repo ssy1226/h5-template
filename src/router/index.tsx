@@ -43,7 +43,7 @@ const Layout = ()=>{
 
   useEffect(() => {
     getUserInfo()
-  }, [getUserInfo]);
+  }, []);
 
   const rendeRoutes = (routes) => {
     if (!routes.length) {
