@@ -49,7 +49,7 @@ const Layout = ()=>{
     if (!routes.length) {
       return <Redirect to="/noAuth" />;
     }
-    return routes.map((routeItem) => {
+    return( routes.map((routeItem) => {
       const { path } = routeItem;
       return (
         <Route
@@ -65,7 +65,7 @@ const Layout = ()=>{
           path={path}
         />
       );
-    });
+    }));
   }
   return routesDom;
 }
@@ -82,11 +82,15 @@ const RouterGuard =()=> {
               exact
               path="/noAuth"
             />
+            <Route path='/' exact render={()=> (
+               <Redirect to= '/cockpit/FI' />
+            )}/>
             <Route
              // @ts-ignore
               component={Layout}
               path="*"
             />
+            
           </Switch>
         </Suspense>
     </BrowserRouter>

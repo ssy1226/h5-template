@@ -16,7 +16,7 @@ const tabs = [
   {
     title: '网点及人员',
     selected: false,
-    path: '/qcc'
+    path: '/cockpit/OP'
   },
   {
     title: '风险管理',
