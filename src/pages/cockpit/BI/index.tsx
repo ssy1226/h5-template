@@ -1,15 +1,13 @@
 import React from 'react'
-import './index.scss'
-import noData from '@/assets/no-data.png';
+import noData from '@/assets/empty.png';
+import EmptyPage from '@/components/EmptyPage';
 
 function BI() {
+  const str = '暂无数据';
   return (
-    <div className="BI-page">
-      <div className="content">
-        <img src={noData} alt="no-data" />
-        <p>没有数据</p>
-      </div>
-    </div>
+    <>
+      <EmptyPage imgUrl={noData} tipText={str}></EmptyPage>
+    </>
   )
 }
 
