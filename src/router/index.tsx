@@ -4,7 +4,7 @@ import noAuth from '@/pages/no-auth';
 import TopBar from '@/components/topbar';
 import { LoadingElement } from '@/components/loading';
 import { cookie, getQuery } from "@/utils/tools";
-import Api from "@/api/index";
+import Api from "@/api/index/index";
 import envConfig from '@/config'
 import { routes } from './routes'
 
@@ -14,31 +14,35 @@ const Layout = ()=>{
   const getUserInfo = ()=>{
     const code = getQuery('code');
     const token = cookie().get('token');
-    if(!token){
-      if(code){
-        Api.getUserInfo(code).then((res)=>{
-          if(res.code===200){
-            const cookieSet = cookie().set;
-            cookieSet('token', res.data, 1);
-            const routesDom = rendeRoutes(routes);
-            setRoutesDom(routesDom);
-          } else {
-            const routesDom = rendeRoutes([]);
-            setRoutesDom(routesDom);
-          }
-        })
-        .catch(()=>{
-          const routesDom = rendeRoutes([]);
-          setRoutesDom(routesDom);
-        })
-      }else{
-        window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
-      }
+    const cookieSet = cookie().set;
+    cookieSet('token', 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6IuW8oOS5kOS5kCIsImV4cCI6MTY0MDA1MTA3NiwiaWF0IjoxNjM5OTY0Njc2fQ.Gb8yF7Vs_RZeP3lmbtEK3Wb-5i3aFYrtqT4D_avCdQU', 1);
+    const routesDom = rendeRoutes(routes);
+    setRoutesDom(routesDom);
+    // if(!token){
+    //   if(code){
+    //     Api.getUserInfo(code).then((res)=>{
+    //       if(res.code===200){
+    //         const cookieSet = cookie().set;
+    //         cookieSet('token', res.data, 1);
+    //         const routesDom = rendeRoutes(routes);
+    //         setRoutesDom(routesDom);
+    //       } else {
+    //         const routesDom = rendeRoutes([]);
+    //         setRoutesDom(routesDom);
+    //       }
+    //     })
+    //     .catch(()=>{
+    //       const routesDom = rendeRoutes([]);
+    //       setRoutesDom(routesDom);
+    //     })
+    //   }else{
+    //     window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
+    //   }
       
-    } else {
-      const routesDom = rendeRoutes(routes);
-      setRoutesDom(routesDom);
-    }
+    // } else {
+    //   const routesDom = rendeRoutes(routes);
+    //   setRoutesDom(routesDom);
+    // }
   }
 
   useEffect(() => {
