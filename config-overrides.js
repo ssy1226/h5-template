@@ -68,6 +68,6 @@
         )
       : undefined
   ),
-  devServer: overrideDevServer(devServerConfig())
+  // devServer: overrideDevServer(devServerConfig())
 }
  
