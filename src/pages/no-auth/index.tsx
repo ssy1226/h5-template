@@ -3,9 +3,6 @@ import noPermission from '../../assets/no_permission.png'
 import './index.scss';
 
 function Index() {
-  const updateInfo = async () => {
-
-  }
   return (
     <div className="no-auth">
       <div className="auth-detail">

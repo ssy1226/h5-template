@@ -43,7 +43,7 @@ const Layout = ()=>{
 
   useEffect(() => {
     getUserInfo()
-  }, []);
+  }, []); // eslint-disable-line
 
   const rendeRoutes = (routes) => {
     if (!routes.length) {
