@@ -65,7 +65,7 @@ function Index() {
   return (
     <div className="index-page">
         <div className="content">
-            <div className="title">营业收入</div>
+            <div className="title">风险指标</div>
             <div className="line"></div>
             <div className="pies-content">
                 <div className="first-line">
