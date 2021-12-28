@@ -1,6 +1,6 @@
 import React from 'react';
-import { PieChart, BarChart  } from 'echarts/charts';
-import Store from "./strore";
+import { PieChart  } from 'echarts/charts';
+// import Store from "./strore";
 import Chart from '@/components/charts';
 import './RM.scss';
 

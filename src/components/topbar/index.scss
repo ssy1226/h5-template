@@ -9,6 +9,16 @@
   padding:0 .2rem;
   align-items: center;
   z-index: 999;
+  &:after{
+    content: ' ';
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #DEDFE1;
+    transform:scaleY(0.5);
+  }
   .tab-item{
     position: relative;
     height: 1rem;
@@ -19,6 +29,7 @@
   }
   .selected{
     border-bottom: 3px solid #6C1E1E;
+    z-index: 9;
     font-weight: bolder;
   }
 }
