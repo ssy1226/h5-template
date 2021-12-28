@@ -184,7 +184,7 @@ export default () => {
   useEffect(() => {
     console.log('useEffect');
     getYearData();
-  }, []);
+  }, []); // eslint-disable-line
   return (
     <div className='index-page' data-theme="light-theme">
       <section>

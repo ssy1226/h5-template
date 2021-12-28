@@ -23,7 +23,7 @@ const Chart = ({ renderType = 'canvas', options, style, components = [] }) => {
   useEffect(() => {
     // 注册必须的组件
     echarts&&echarts.use([CanvasRenderer, TitleComponent, TooltipComponent, LegendComponent,GridComponent, ...components]);
-  }, []);
+  }, []); // eslint-disable-line
 
   //监听屏幕变化，重绘图表
   useEffect(() => {

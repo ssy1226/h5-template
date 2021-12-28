@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { PieChart, BarChart  } from 'echarts/charts';
 import Store from "./strore";
 import Chart from '@/components/charts';
-import envConfig from '@/config'
-import { cookie } from "@/utils/tools";
 import './index.scss';
 const getPieOption = (data) => {
   return {
@@ -73,13 +71,16 @@ const getLineOption = ({x,y})=>{
     color: [
       '#CBAA7B',
     ],
+    grid: {
+      left: '2%',
+      right: '2%',
+      bottom: '10%',
+      containLabel: true
+    },
     xAxis: [
       {
         type: 'category',
         data: x,
-        axisTick: {
-          alignWithLabel: true
-        },
         axisLabel: {
           interval:0,
           rotate:40,
@@ -94,7 +95,6 @@ const getLineOption = ({x,y})=>{
         type: 'value',
         name: '单位：亿',
         nameGap: 20,
-        axisLine:{},
         nameTextStyle:{
           padding:[0,0,0,-10],
           fontSize: 10
@@ -116,8 +116,8 @@ const getLineOption = ({x,y})=>{
         data: y,
         emphasis: {
         	itemStyle: {
-                color: '#AE8A58'
-            }
+            color: '#AE8A58'
+          }
         }
       }
     ]
@@ -236,9 +236,9 @@ export default () => {
   }
   useEffect(() => {
     getYearData();
-  }, []);
+  }, []); // eslint-disable-line
   return (
-    <div className='index-page' data-theme="light-theme">
+    <div className='FI-page' data-theme="light-theme">
       <div className='section-item'>
         <section>
           <div className='section-content'>
