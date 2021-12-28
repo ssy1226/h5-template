@@ -2,7 +2,7 @@
     padding: 0 !important;
 }
 
-.BI-page {
+.empty-page {
     background: #efefef;
     height: 100%;
     width: 100%;
@@ -24,12 +24,30 @@
         }
 
         p {
+            margin-top: 14px;
             text-align: center;
             font-size: 16px;
             font-family: PingFangSC, PingFangSC-Regular;
             font-weight: 400;
             color: #606060;
             line-height: 23px;
+        }
+
+        .tips-text {
+            margin-top: 14px;
+            max-width: 277px;
+            white-space: wrap;
+            text-align: center;
+            font-size: 14px;
+            font-family: PingFangSC, PingFangSC-Regular;
+            font-weight: 400;
+            text-align: center;
+            color: #606060;
+            line-height: 30px;
+
+            .tips-name {
+                color: #933f3f;
+            }
         }
     }
 }
