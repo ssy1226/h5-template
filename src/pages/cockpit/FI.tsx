@@ -145,7 +145,7 @@ export default () => {
   const [progress, setProgress] = useState('--');
   const [pMVsSply, setPMVsSply] = useState({data: '--', type: 'up'});
   const [pYFinishRate, setPYFinishRate] = useState('--');
-  const [pYPointer, setPPointer] = useState('--');
+  const [pYPointer, setPPointer] = useState({idxValue:'--', dataDate: '--'});
   const [pYVsSpl, setPYVsSpl] = useState({data: '--', type: 'up'});
 
   const formatePieData = (data)=>{
@@ -211,7 +211,11 @@ export default () => {
       res.code===200 && setPYFinishRate(res.data);
     })
     Store.getProfitYPointerValue().then((res)=>{
-      res.code===200 && setPPointer(res.data);
+      if(res.code===200){
+        let {idxValue, dataDate} = res.data;
+        dataDate = `${dataDate.slice(0,4)}-${dataDate.slice(4,6)}-${dataDate.slice(6,8)}`;
+        setPPointer({idxValue, dataDate})
+      }
     })
     Store.getProfitYVSSply().then((res)=>{
       res.code===200 && setPYVsSpl(formateVsData(res.data));
@@ -230,9 +234,6 @@ export default () => {
         dataDate = `${dataDate.slice(0,4)}-${dataDate.slice(4,6)}-${dataDate.slice(6,8)}`;
         setMonthPointer({idxValue, dataDate})
       }
-    })
-    Store.getMPointerValues({months: 12}).then((res)=>{
-      res.code===200 && setYearLineData(formateLineData(res.data))
     })
     Store.getMVSLp().then((res)=>{
       res.code===200 && setMonthVsSply(formateVsData(res.data));
@@ -322,14 +323,14 @@ export default () => {
         <section>
           <div className='display-flex page-top'>
             <div className='section-tilte'>净利润</div>
-            <div className='section-time'>*数据更新时间：{showYTD?yearPointer.dataDate:monthPointer.dataDate}</div>
+            <div className='section-time'>*数据更新时间：{pYPointer.dataDate}</div>
           </div>
           <div className='split'></div>
           <div className='section-content'>
             <div className='sum-content sum-month'>
               <div className='num-item'>
                 <div className='sub-title'>总金额(亿元)</div>
-                <div className='num'><span className='data'>{pYPointer}</span></div>
+                <div className='num'><span className='data'>{pYPointer.idxValue}</span></div>
               </div>
             </div>
             <div className='sum-content'>
