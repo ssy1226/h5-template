@@ -120,12 +120,13 @@
     .num{  
       color: #DF3031;
       position: relative;
-      &::after{
+      padding-left: .36rem;
+      &::before{
         content: ' ';
         width: .32rem;
         height: .32rem;
         position: absolute;
-        right: -18px;
+        left: 0;
         bottom: .24rem;
         background-image: url('../../assets/up.png');
         background-size: 100%;
@@ -133,7 +134,7 @@
     }
     .down-num{  
       color: #4CAD7A;
-      &::after{
+      &::before{
         background-image: url('../../assets/down.png');
         background-size: 100%;
       }

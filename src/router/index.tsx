@@ -8,12 +8,12 @@ import Api from "@/api/index/index";
 import envConfig from '@/config'
 import { routes } from './routes'
 
-const Layout = ()=>{
+const Layout = (props)=>{
   const [routesDom, setRoutesDom] = useState([]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUserInfo = ()=>{
-    // const code = getQuery('code');
-    const code = '张乐乐'
+    const code = getQuery('code') || (props.history&&props.history.state&&props.history.state.code);
+    // const code = '张乐乐'
     const token = cookie().get('token');
     if(!token){
       if(code){
@@ -72,6 +72,7 @@ const Layout = ()=>{
 
 
 const RouterGuard =()=> {
+  const code = getQuery('code');
   return (
     <BrowserRouter basename="">
       <TopBar />
@@ -83,7 +84,7 @@ const RouterGuard =()=> {
               path="/noAuth"
             />
             <Route path='/' exact render={()=> (
-               <Redirect to= '/cockpit/FI' />
+               <Redirect to={{pathname: `/cockpit/FI?code=${code}`, state:{code}} }/>
             )}/>
             <Route
              // @ts-ignore

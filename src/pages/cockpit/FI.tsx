@@ -7,8 +7,12 @@ const getPieOption = (data) => {
   return {
     tooltip: {
       trigger: 'item',
-      formatter: '{b} : {c}, ({d}%)',
       borderWidth: 0,
+      formatter: (params)=> {
+        let {value, name, vs} = params.data;
+        let res = `<div style='width:60px;font-size: 10px;line-height: 1;'><div>${name}<span style='margin-left: 10px;'>${value}</span></div><div style='margin-top: 6px;'>同比<span style='margin-left: 2px;'>${vs}</span></div></div>`
+        return res;
+      }
     },
     legend: {
       orient: 'horizontal',
@@ -72,8 +76,8 @@ const getLineOption = ({x,y})=>{
       '#CBAA7B',
     ],
     grid: {
-      left: '2%',
-      right: '2%',
+      left: '1%',
+      right: '1%',
       bottom: '10%',
       containLabel: true
     },
@@ -152,6 +156,7 @@ export default () => {
       res.push({
         value: data[key],
         name: key,
+        vs: '+20%',
         itemStyle: {borderWidth: 3, borderColor: '#fff',color:color[key]}
       })
     }
@@ -243,7 +248,7 @@ export default () => {
         <section>
           <div className='section-content'>
             <div className='display-flex page-top'>
-              <div className='section-tilte'>营业收入情况</div>
+              <div className='section-tilte'>营业收入</div>
               <div className='section-time'>*数据更新时间：{showYTD?yearPointer.dataDate:monthPointer.dataDate}</div>
             </div>
           </div>
@@ -277,27 +282,28 @@ export default () => {
         </section>
         <div className='split'></div>
         <section className='chart'>
-          <div className='chart-title'>营业收入占比</div>
+          <div className='chart-title'>营业收入占比{`${showYTD?'（TYD）':''}`}</div>
           <Chart
             style={{ height: '100%', width: '100%'}}
             options={getPieOption(pieData)}
             components={[PieChart]}
           />
         </section>
-        <div className='split'></div>
-        <section className='month-bar-chart'>
+        {showYTD&&<div className='split'></div>}
+        {showYTD&&<section className='month-bar-chart'>
           <div className='chart-title'>营收趋势</div>
           <Chart
               style={{ height: '100%',width: '100%', }}
               options={getLineOption(yearLineData)}
               components={[BarChart]}
             />
-        </section>
+        </section>}
       </div>
       <div className='section-item second-section'>
         <section>
           <div className='display-flex page-top'>
             <div className='section-tilte'>净利润</div>
+            <div className='section-time'>*数据更新时间：{showYTD?yearPointer.dataDate:monthPointer.dataDate}</div>
           </div>
           <div className='split'></div>
           <div className='section-content'>
@@ -328,6 +334,15 @@ export default () => {
               <div className='rate-data'>{progress}</div>
             </div>
           </div>
+        </section>
+        <div className='split'></div>
+        <section className='month-bar-chart'>
+          <div className='chart-title'>净利润趋势</div>
+          <Chart
+              style={{ height: '100%',width: '100%', }}
+              options={getLineOption(yearLineData)}
+              components={[BarChart]}
+            />
         </section>
       </div>
     </div>
