@@ -3,14 +3,19 @@ import { PieChart, BarChart  } from 'echarts/charts';
 import Store from "./strore";
 import Chart from '@/components/charts';
 import './index.scss';
+import envConfig from '@/config'
+import { cookie } from "@/utils/tools";
 const getPieOption = (data) => {
   return {
     tooltip: {
       trigger: 'item',
       borderWidth: 0,
       formatter: (params)=> {
-        let {value, name, vs} = params.data;
-        let res = `<div style='width:60px;font-size: 10px;line-height: 1;'><div>${name}<span style='margin-left: 10px;'>${value}</span></div><div style='margin-top: 6px;'>同比<span style='margin-left: 2px;'>${vs}</span></div></div>`
+        let {value, name, vsSply} = params.data;
+        if(vsSply.indexOf('-')<0 && vsSply.indexOf('+')<0){
+          vsSply = `+${vsSply}`
+        }
+        let res = `<div style='width:77px;font-size: 10px;line-height: 1;'><div>${name}<span style='margin-left: 10px;'>${value}</span></div><div style='margin-top: 6px;'>同比<span style='margin-left: 2px;'>${vsSply}</span></div></div>`
         return res;
       }
     },
@@ -153,14 +158,12 @@ export default () => {
       'FI':'#DF9753'
     };
     let res: any = [];
-    for(let key in data){
+    data.forEach(element => {
       res.push({
-        value: data[key],
-        name: key,
-        vs: '+20%',
-        itemStyle: {borderWidth: 3, borderColor: '#fff',color:color[key]}
+        ...element,
+        itemStyle: {borderWidth: 3, borderColor: '#fff',color: color[element.name]}
       })
-    }
+    });
     res.sort((a, b)=>a.value-b.value)
     return res;
   }
@@ -176,10 +179,10 @@ export default () => {
   const getYearData = ()=>{
     Store.getYDepartment().then((res)=>{
       res.code===200 && setPieData(formatePieData(res.data));
-      // if(res.code===500){
-      //   cookie().remove('token');
-      //   window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
-      // }
+      if(res.code===500){
+        cookie().remove('token');
+        window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
+      }
     })
     Store.getYPointerValues().then((res)=>{
       if(res.code===200){
