@@ -133,14 +133,14 @@ export default () => {
   const [pieData, setPieData] = useState([]);
   const [yearPointer, setYearPointer] = useState({idxValue:'--', dataDate: '--'});
   const [monthPointer, setMonthPointer] = useState({idxValue:'--', dataDate: '--'});
-  const [yearVsSply, setYearVsSply] = useState('--');
-  const [monthVsSply, setMonthVsSply] = useState('--');
+  const [yearVsSply, setYearVsSply] = useState({data: '--', type: 'up'});
+  const [monthVsSply, setMonthVsSply] = useState({data: '--', type: 'up'});
   const [yearFinishRate, setYearFinishRate] = useState('--');
   const [progress, setProgress] = useState('--');
-  const [pMVsSply, setPMVsSply] = useState('--');
+  const [pMVsSply, setPMVsSply] = useState({data: '--', type: 'up'});
   const [pYFinishRate, setPYFinishRate] = useState('--');
   const [pYPointer, setPPointer] = useState('--');
-  const [pYVsSpl, setPYVsSpl] = useState('--');
+  const [pYVsSpl, setPYVsSpl] = useState({data: '--', type: 'up'});
 
   const formatePieData = (data)=>{
     const color= { 
@@ -189,7 +189,7 @@ export default () => {
       // res.code===200 && setYearPointer(res.data);
     })
     Store.getYVSSply().then((res)=>{
-      res.code===200 && setYearVsSply(res.data);
+      res.code===200 && setYearVsSply(formateVsData(res.data));
     })
     Store.getYFinishRate().then((res)=>{
       res.code===200 && setYearFinishRate(res.data);
@@ -201,7 +201,7 @@ export default () => {
       res.code===200 && setProgress(res.data);
     })
     Store.getProfitMVslp().then((res)=>{
-      res.code===200 && setPMVsSply(res.data);
+      res.code===200 && setPMVsSply(formateVsData(res.data));
     })
     Store.getProfitYFinishRate().then((res)=>{
       res.code===200 && setPYFinishRate(res.data);
@@ -210,7 +210,7 @@ export default () => {
       res.code===200 && setPPointer(res.data);
     })
     Store.getProfitYVSSply().then((res)=>{
-      res.code===200 && setPYVsSpl(res.data);
+      res.code===200 && setPYVsSpl(formateVsData(res.data));
     })
   }
   const getMonthData = ()=>{
@@ -228,7 +228,7 @@ export default () => {
       res.code===200 && setYearLineData(formateLineData(res.data))
     })
     Store.getMVSLp().then((res)=>{
-      res.code===200 && setMonthVsSply(res.data);
+      res.code===200 && setMonthVsSply(formateVsData(res.data));
     })
   }
   const showMonthData = (YTD)=>{
@@ -239,9 +239,21 @@ export default () => {
       getMonthData();
     }
   }
+  const formateVsData = (data)=>{
+    if(data.indexOf('-')>-1){
+      data = data.split('-')[1];
+      return {type: 'up', data};
+    }
+    if(data.indexOf('+')>-1){
+      data = data.split('+')[1];
+      return {type: 'down', data}
+    }
+    return {type: 'up', data}
+  }
   useEffect(() => {
     getYearData();
   }, []); // eslint-disable-line
+  const showVsSply = showYTD?yearVsSply:monthVsSply;
   return (
     <div className='FI-page' data-theme="light-theme">
       <div className='section-item'>
@@ -265,7 +277,7 @@ export default () => {
               </div>
               <div className='num-item num-normal'>
                 <div className='sub-title'>{showYTD?'同比值':'环比'}</div>
-                <div className='num'>{showYTD?yearVsSply:monthVsSply}</div>
+                <div className={`${showVsSply.type==='down'?'down-num':''} num`}>{showVsSply.data}</div>
               </div>
             </div>
             {showYTD&&<><div className='rate-bar'>
@@ -316,11 +328,11 @@ export default () => {
             <div className='sum-content'>
               <div className='num-item num-normal'>
                 <div className='sub-title'>同比值</div>
-                <div className='num'>{pYVsSpl}</div>
+                <div className={`${showVsSply.type==='down'?'down-num':''} num`}>{pYVsSpl.data}</div>
               </div>
               <div className='num-item num-normal'>
                 <div className='sub-title'>环比值</div>
-                <div className='num down-num'>{pMVsSply}</div>
+                <div className={`${showVsSply.type==='down'?'down-num':''} num`}>{pMVsSply.data}</div>
               </div>
             </div>
             <div className='rate-bar'>

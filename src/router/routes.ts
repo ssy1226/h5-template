@@ -8,11 +8,6 @@ export interface RouteConfig {
 
 export const routes: RouteConfig[] = [
   {
-    path: '/cockpit',
-    component:loadable(() => import('@/pages/cockpit/index')),
-    exact: true
-  },
-  {
     path: '/cockpit/FI',
     component:loadable(() => import('@/pages/cockpit/FI')),
     exact: true

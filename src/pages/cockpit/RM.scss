@@ -39,10 +39,14 @@
   margin-top: 0.2rem;
   padding-top: 0.2rem;
 }
-.title{
+.title-wrapper{
+  display: flex;
   padding: 3px;
   font-size: 17px;
   font-weight: 500;
+}
+.title{
+  flex: 1
 }
 .line{
   margin-top: 0.2rem;

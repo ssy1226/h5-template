@@ -65,7 +65,10 @@ function Index() {
   return (
     <div className="index-page">
         <div className="content">
-            <div className="title">风险指标</div>
+            <div className='title-wrapper'>
+                <div className="title">风险指标</div>
+                <div className='section-time'>*数据更新时间：{'2021-11-30'}</div>
+            </div>
             <div className="line"></div>
             <div className="pies-content">
                 <div className="first-line">
@@ -109,7 +112,7 @@ function Index() {
                             options={getPieOption(data1)}
                             components={[PieChart]}
                         />
-                        <div className="pies-name">VaR限额使用率</div>
+                        <div className="pies-name">VaR</div>
                     </div>
                 </div>
             </div>
