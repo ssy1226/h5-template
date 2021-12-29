@@ -15,6 +15,9 @@ class Store {
   static getMPointerValue = () => {
     return request(`${api}/revenue/month/pointer-value`,'GET',{}, true);
   }
+  static getNetProfitValues = () => {
+    return request(`${api}/net-profit/month/pointer-values`,'GET',{}, true);
+  }
   static getYDepartment = () => {
     return request(`${api}/revenue/ytd/department-values`,'GET',{}, true);
   }
@@ -31,7 +34,7 @@ class Store {
     return request(`${api}/revenue/time-progress`,'GET', {}, true);
   }
   static getProfitMVslp = () => {
-    return request(`${api}/net-profit/vs-lp`,'GET', {}, true);
+    return request(`${api}/net-profit/month/vs-lp`,'GET', {}, true);
   }
   static getProfitYFinishRate = () => {
     return request(`${api}/net-profit/finish-rate`,'GET', {}, true);

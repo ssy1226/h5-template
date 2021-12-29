@@ -19,6 +19,7 @@
      ...config,
      proxy: {
        '/manager-mp-server/api': {
+        //  target: 'http://10.80.245.94:8282',
          target: 'http://10.80.245.218:8282',
          changeOrigin: true,
          secure: false
@@ -68,6 +69,6 @@
         )
       : undefined
   ),
-  // devServer: overrideDevServer(devServerConfig())
+  devServer: overrideDevServer(devServerConfig())
 }
  

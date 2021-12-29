@@ -77,7 +77,7 @@ const getLineOption = ({x,y})=>{
     ],
     grid: {
       left: '1%',
-      right: '1%',
+      right: '2%',
       bottom: '10%',
       containLabel: true
     },
@@ -130,6 +130,7 @@ const getLineOption = ({x,y})=>{
 export default () => {
   const [showYTD, setShowYTD] = useState(true);
   const [yearLineData, setYearLineData] = useState({x:[],y:[]});
+  const [profitLineData, setProfitLineData] = useState({x:[],y:[]});
   const [pieData, setPieData] = useState([]);
   const [yearPointer, setYearPointer] = useState({idxValue:'--', dataDate: '--'});
   const [monthPointer, setMonthPointer] = useState({idxValue:'--', dataDate: '--'});
@@ -211,6 +212,9 @@ export default () => {
     })
     Store.getProfitYVSSply().then((res)=>{
       res.code===200 && setPYVsSpl(formateVsData(res.data));
+    })
+    Store.getNetProfitValues().then((res)=>{
+      res.code===200 && setProfitLineData(formateLineData(res.data));
     })
   }
   const getMonthData = ()=>{
@@ -352,7 +356,7 @@ export default () => {
           <div className='chart-title'>净利润趋势</div>
           <Chart
               style={{ height: '100%',width: '100%', }}
-              options={getLineOption(yearLineData)}
+              options={getLineOption(profitLineData)}
               components={[BarChart]}
             />
         </section>
