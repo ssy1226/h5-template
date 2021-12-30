@@ -27,7 +27,7 @@ const tabs = [
 
 function TopBar() {
   const history = useHistory()
-  const pathname = history.location.pathname;
+  const pathname = history.location.pathname.split('?')[0];
   const [hideTab, sethideTab] = useState(false);
   useEffect(() => {
     sethideTab(!tabs.map(item => item.path).includes(pathname))
