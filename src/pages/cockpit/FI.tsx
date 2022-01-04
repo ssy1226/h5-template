@@ -179,10 +179,6 @@ export default () => {
   const getYearData = ()=>{
     Store.getYDepartment().then((res)=>{
       res.code===200 && setPieData(formatePieData(res.data));
-      if(res.code===500){
-        cookie().remove('token');
-        window.location.replace(`${envConfig.WXORIGIN}/connect/oauth2/authorize?appid=${envConfig.APPID}&redirect_uri=${encodeURI(window.location.href)}&response_type=code&scope=snsapi_userinfo&agentid=${envConfig.AGENTID}&state=CICC#wechat_redirect`)
-      }
     })
     Store.getYPointerValues().then((res)=>{
       if(res.code===200){
