@@ -60,7 +60,7 @@ const RouterGuard =()=> {
               path="/noAuth"
             />
             <Route path='/' exact render={()=> (
-               <Redirect to={`/cockpit/FI${code?`?code=${code}`: ''}`}/>
+               <Redirect to={`/detail${code?`?code=${code}`: ''}`}/>
             )}/>
             <Route
              // @ts-ignore
