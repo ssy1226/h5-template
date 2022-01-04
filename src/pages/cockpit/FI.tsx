@@ -302,7 +302,7 @@ export default () => {
         </section>
         <div className='split'></div>
         <section className='chart'>
-          <div className='chart-title'>营业收入占比{`${showYTD?'（TYD）':''}`}</div>
+          <div className='chart-title'>营业收入占比{`${showYTD?'（YTD）':''}`}</div>
           <Chart
             style={{ height: '100%', width: '100%'}}
             options={getPieOption(pieData)}

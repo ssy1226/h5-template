@@ -4,8 +4,7 @@
  */
 
  const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer') //分析插件，打包后在build/static/report.html中展示各模块所占的大小
-
- const { override, addPostcssPlugins, addWebpackAlias, fixBabelImports, addWebpackPlugin, overrideDevServer  } = require('customize-cra')
+ const { override, addPostcssPlugins, addWebpackAlias, fixBabelImports, addWebpackPlugin, overrideDevServer} = require('customize-cra')
  const path = require('path')
  const resolve = dir => path.join(__dirname, dir)
  
@@ -68,6 +67,11 @@
           })
         )
       : undefined
+      // (config, env) => {
+        // console.log(config.module.rules[2].oneOf[5].use[1].options);
+        // config.module.rules[2].oneOf[5].use[1].options.modules = true;
+      //   return config;
+      // },
   ),
   devServer: overrideDevServer(devServerConfig())
 }
