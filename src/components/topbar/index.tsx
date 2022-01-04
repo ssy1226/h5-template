@@ -4,24 +4,24 @@ import "./index.scss";
 
 const tabs = [
   {
-    title: '财务',
+    title: 'title1',
     selected: true,
-    path: '/cockpit/FI'
+    path: '/path'
   },
   {
-    title: '业务',
+    title: 'title2',
     selected: false,
-    path: '/cockpit/BI'
+    path: '/path'
   },
   {
-    title: '网点及人员',
+    title: 'title3',
     selected: false,
-    path: '/cockpit/OP'
+    path: '/path
   },
   {
-    title: '风险管理',
+    title: 'title4',
     selected: false,
-    path: '/cockpit/RM'
+    path: '/path'
   }
 ]
 
