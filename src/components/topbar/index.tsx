@@ -6,22 +6,22 @@ const tabs = [
   {
     title: 'title1',
     selected: true,
-    path: '/path'
+    path: '/detail'
   },
   {
     title: 'title2',
     selected: false,
-    path: '/path'
+    path: '/detail'
   },
   {
     title: 'title3',
     selected: false,
-    path: '/path
+    path: '/detail'
   },
   {
     title: 'title4',
     selected: false,
-    path: '/path'
+    path: '/detail'
   }
 ]
 
