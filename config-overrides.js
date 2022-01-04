@@ -66,12 +66,12 @@
             analyzerMode: 'static' //输出静态报告文件report.html，而不是启动一个web服务
           })
         )
-      : undefined
-      // (config, env) => {
-        // console.log(config.module.rules[2].oneOf[5].use[1].options);
-        // config.module.rules[2].oneOf[5].use[1].options.modules = true;
-      //   return config;
-      // },
+      : undefined,
+      (config, env) => {
+        console.log(config.module.rules[2].oneOf[5].use[1].options);
+        config.module.rules[2].oneOf[5].use[1].options.modules = true;
+        return config;
+      },
   ),
   devServer: overrideDevServer(devServerConfig())
 }

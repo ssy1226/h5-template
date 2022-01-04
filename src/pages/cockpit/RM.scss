@@ -1,5 +1,5 @@
 @import "../../App.scss";
-#root{
+:global{#root{
   padding: 1rem 10px 16px;
 }
 .index-page{
@@ -83,4 +83,5 @@
       }
     }
   }
+}
 }

@@ -37,7 +37,8 @@ $themes: (
 }
 
 $font-size: 14px;
-#root{
+
+:global #root{
   background: #f6f7fb;
   width: 100%;
   height: 100%;
