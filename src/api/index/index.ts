@@ -1,5 +1,5 @@
 import request from '../request'
-const api = 'manager-mp-server'
+const api = ''
 
 interface InfoListItem {
   name: string
@@ -8,7 +8,7 @@ interface InfoListItem {
 
 class IndexApi {
   static getUserInfo = (code) =>{
-    return request(`/${api}/api/v1/user/getUserInfo`,'GET', {code}, true);
+    return request(`${api}/api/v1/user/getUserInfo`,'GET', {code}, true);
   }
 
   static updateInfo = (params: {
